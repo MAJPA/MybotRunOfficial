@@ -30920,7 +30920,7 @@ Global $__MEmu_SystemBar = 36
 Global $__MEmu_PhoneLayout = "0"
 Global $__MEmu_Window[3][4] =  [  ["2.6.2",$DEFAULT_WIDTH + 48,$DEFAULT_HEIGHT + 26,40],  ["2.5.0",$DEFAULT_WIDTH + 51,$DEFAULT_HEIGHT + 24,40],  ["2.2.1",$DEFAULT_WIDTH + 51,$DEFAULT_HEIGHT + 24,45]  ]
 Global $__Droid4X_Window[3][3] =  [  ["0.10.0",$DEFAULT_WIDTH +  6,$DEFAULT_HEIGHT + 53],  ["0.8.6" ,$DEFAULT_WIDTH + 10,$DEFAULT_HEIGHT + 50]  ]
-Global $AndroidAppConfig[5][14] = [  ["MEmu",       "MEmu",          "MEmu 2.",              "[CLASS:subWin; INSTANCE:1]",       "",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 12,$DEFAULT_WIDTH + 51,$DEFAULT_HEIGHT + 24,0,             "127.0.0.1:21503",0+2+4+8+16+32+64      ,'# ',               'Microvirt Virtual Input'],  ["Droid4X",    "droid4x",       "Droid4X 0.",           "[CLASS:subWin; INSTANCE:1]",       "",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH + 10,$DEFAULT_HEIGHT + 50,0,             "127.0.0.1:26944",0+2+4+8+16+32+64      ,'# ',               'droid4x Virtual Input'],  ["Nox",        "nox",           "No",                   "[CLASS:Qt5QWindowIcon;INSTANCE:4]","",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH +  4,$DEFAULT_HEIGHT - 10,0,             "127.0.0.1:62001",0+2+4+8+16+32         ,'# ',               'nox Virtual Input'],  ["BlueStacks2","",              "BlueStacks ",          "[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,0,             "emulator-5554",  1    +8+16   +64      ,'$ ',               'BlueStacks Virtual Touch'],  ["BlueStacks", "",              "BlueStacks App Player","[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,0,             "emulator-5554",  1    +8+16   +64      ,'$ ',               'BlueStacks Virtual Touch']  ]
+Global $AndroidAppConfig[5][14] = [  ["MEmu",       "MEmu",          "MEmu 2.",              "[CLASS:subWin; INSTANCE:1]",       "",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 12,$DEFAULT_WIDTH + 51,$DEFAULT_HEIGHT + 24,0,             "127.0.0.1:21503",0+2+4+8+16+32+64      ,'# ',               'Microvirt Virtual Input'],  ["Droid4X",    "droid4x",       "Droid4X 0.",           "[CLASS:subWin; INSTANCE:1]",       "",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH + 10,$DEFAULT_HEIGHT + 50,0,             "127.0.0.1:26944",0+2+4+8+16+32+64      ,'# ',               'droid4x Virtual Input'],  ["Nox",        "nox",           "No",                   "[CLASS:Qt5QWindowIcon;INSTANCE:4]","",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH +  4,$DEFAULT_HEIGHT - 10,0,             "127.0.0.1:62001",0+2+4+8+16+32         ,'# ',               '(nox Virtual Input|Android Input)'],  ["BlueStacks2","",              "BlueStacks ",          "[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,0,             "emulator-5554",  1    +8+16   +64      ,'$ ',               'BlueStacks Virtual Touch'],  ["BlueStacks", "",              "BlueStacks App Player","[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,0,             "emulator-5554",  1    +8+16   +64      ,'$ ',               'BlueStacks Virtual Touch']  ]
 Global $OnlyInstance = True
 Global $FoundRunningAndroid = False
 Global $FoundInstalledAndroid = False
@@ -62508,6 +62508,8 @@ PushMsg("TakeBreak")
 If _SleepStatus($iDelaycheckObstacles4) Then Return
 PureClickP($aReloadButton, 1, 0, "#0128")
 If $ichkSinglePBTForced = 1 Then $bGForcePBTUpdate = True
+$Quickattack = False
+$fullArmy = False
 Return True
 EndIf
 Select
@@ -62740,6 +62742,8 @@ Setlog("Attacking disabled, Personal Break detected...", $COLOR_RED)
 If _CheckPixel($aSurrenderButton, $bCapturePixel) Then
 ReturnHome(False, False)
 Else
+$Quickattack = False
+$fullArmy = False
 CloseCoC()
 EndIf
 Else
@@ -62757,6 +62761,8 @@ If $debugSetlog = 1 Then Setlog("Personal Break OCR result = " & $Result, $COLOR
 If $Result <> "" Then
 If StringInStr($Result, "been") <> 0 Or StringInStr($Result, "after") <> 0 Or StringInStr($Result, "have") <> 0 Then
 Setlog("Online too long, Personal Break detected....", $COLOR_RED)
+$Quickattack = False
+$fullArmy = False
 checkMainScreen()
 Else
 If $debugSetlog = 1 Then Setlog("wrong text string", $COLOR_PURPLE)
