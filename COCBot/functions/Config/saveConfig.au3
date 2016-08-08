@@ -675,6 +675,28 @@ Func saveConfig() ;Saves the controls settings to the config
 	EndIf
 	$iValueSinglePBTimeForced = GUICtrlRead($txtSinglePBTimeForced)
 	$iValuePBTimeForcedExit = GUICtrlRead($txtPBTimeForcedExit)
+;###Applied with Modification Applier###ID: 8ac7c4540a400860eb3ee0ad2dc2e2f2###
+	;========MOD: Put Heroes To Sleep Due To Personal Break LogOff========
+	;- Barbarian King
+	If GUICtrlRead($chkPBSleepBK) = $GUI_CHECKED Then
+		$ichkPBSleepBK = 1
+	Else
+		$ichkPBSleepBK = 0
+	EndIf
+	;- Archer Queen
+	If GUICtrlRead($chkPBSleepAQ) = $GUI_CHECKED Then
+		$ichkPBSleepAQ = 1
+	Else
+		$ichkPBSleepAQ = 0
+	EndIf
+	;- Grand Warden
+	If GUICtrlRead($chkPBSleepGW) = $GUI_CHECKED Then
+		$ichkPBSleepGW = 1
+	Else
+		$ichkPBSleepGW = 0
+	EndIf
+	;========END MOD: Put Heroes To Sleep Due To Personal Break LogOff========
+;###End Applied with Modification Applier###ID: 8ac7c4540a400860eb3ee0ad2dc2e2f2###
 
 	If GUICtrlRead($chkUseRandomClick) = $GUI_CHECKED Then
 		$iUseRandomClick = 1
@@ -2321,6 +2343,13 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWriteS($config, "other", "chkSinglePBTForced", $ichkSinglePBTForced)
 	IniWriteS($config, "other", "ValueSinglePBTimeForced", $iValueSinglePBTimeForced)
 	IniWriteS($config, "other", "ValuePBTimeForcedExit", $iValuePBTimeForcedExit)
+;###Applied with Modification Applier###ID: 1991b1fe317965d530be6255fd04e4e6###
+	;========MOD: Put Heroes To Sleep Due To Personal Break LogOff========
+	IniWriteS($config, "other", "chkPBSleepBK", $ichkPBSleepBK)
+	IniWriteS($config, "other", "chkPBSleepAQ", $ichkPBSleepAQ)
+	IniWriteS($config, "other", "chkPBSleepGW", $ichkPBSleepGW)
+	;========END MOD: Put Heroes To Sleep Due To Personal Break LogOff========
+;###End Applied with Modification Applier###ID: 1991b1fe317965d530be6255fd04e4e6###
 
 	IniWriteS($config, "General", "ChkLanguage", $ichkLanguage)
 

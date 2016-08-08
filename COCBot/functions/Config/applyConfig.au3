@@ -2023,6 +2023,25 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	GUICtrlSetData($txtSinglePBTimeForced, $iValueSinglePBTimeForced)
 	GUICtrlSetData($txtPBTimeForcedExit, $iValuePBTimeForcedExit)
 	chkSinglePBTForced()
+;###Applied with Modification Applier###ID: fc1f854fd876ce46f17c9ac8c45dc0ae###
+	;========MOD: Put Heroes To Sleep Due To Personal Break LogOff========
+	If $ichkPBSleepBK = 1 Then
+		GUICtrlSetState($chkPBSleepBK, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkPBSleepBK, $GUI_UNCHECKED)
+	EndIf
+	If $ichkPBSleepAQ = 1 Then
+		GUICtrlSetState($chkPBSleepAQ, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkPBSleepAQ, $GUI_UNCHECKED)
+	EndIf
+	If $ichkPBSleepGW = 1 Then
+		GUICtrlSetState($chkPBSleepGW, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkPBSleepGW, $GUI_UNCHECKED)
+	EndIf
+	;========END MOD: Put Heroes To Sleep Due To Personal Break LogOff========
+;###End Applied with Modification Applier###ID: fc1f854fd876ce46f17c9ac8c45dc0ae###
 
 	;multilanguage
 	LoadLanguagesComboBox() ; recreate combo box values

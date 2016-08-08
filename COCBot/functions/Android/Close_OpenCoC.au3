@@ -120,6 +120,11 @@ Func WaitnOpenCoC($iWaitTime, $bFullRestart = False)
 	Else
 		waitMainScreen()
 	EndIf
+;###Applied with Modification Applier###ID: c5f50e123e183d662b345dcc222d9560###
+	If $ichkPBSleepBK = 1 Then SleepHeroes("BK", False)
+	If $ichkPBSleepAQ = 1 Then SleepHeroes("AQ", False)
+	If $ichkPBSleepGW = 1 Then SleepHeroes("GW", False)
+;###End Applied with Modification Applier###ID: c5f50e123e183d662b345dcc222d9560###
 
 EndFunc   ;==>WaitnOpenCoC
 

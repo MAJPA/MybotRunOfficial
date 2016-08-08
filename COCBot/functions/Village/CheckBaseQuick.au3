@@ -36,6 +36,11 @@ Func CheckBaseQuick()
 		EndIf
 
 		Collect() ; Empty Collectors
+;###Applied with Modification Applier###ID: 6cf0813f2834d5fd8593ccbee340fbad###
+		If $ichkPBSleepBK = 1 Then SleepHeroes("BK")
+		If $ichkPBSleepAQ = 1 Then SleepHeroes("AQ")
+		If $ichkPBSleepGW = 1 Then SleepHeroes("GW")
+;###End Applied with Modification Applier###ID: 6cf0813f2834d5fd8593ccbee340fbad###
 		If _Sleep($iDelayRunBot1) Then Return
 
 	Else

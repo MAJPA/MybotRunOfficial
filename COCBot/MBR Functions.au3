@@ -261,3 +261,9 @@
 #include "functions\Village\ClanLevel.au3"
 #include "functions\Village\StarBonus.au3"
 #include "functions\Other\ClickZoneR.au3"
+;###Applied with Modification Applier###ID: acd133f3e7f668426355c5ce452bbc10###
+
+;MOD SLEEP HEROES:
+#include "functions\Village\SleepHeroes.au3"
+;###End Applied with Modification Applier###ID: acd133f3e7f668426355c5ce452bbc10###
+

@@ -161,7 +161,9 @@ $grpTimeWakeUp = GUICtrlCreateGroup(GetTranslated(636,85, "Remote Device"), $x -
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 $y+= 51
-$grpOtherExpert = GUICtrlCreateGroup(GetTranslated(636,45, "Other Options"), $x - 20, $y - 20, 225, 90)
+;###Applied with Modification Applier###ID: 17d9c0a78f01ab552bd3ed5632788db0###
+$grpOtherExpert = GUICtrlCreateGroup(GetTranslated(636,45, "Other Options"), $x - 20, $y - 20, 225, 160)
+;###End Applied with Modification Applier###ID: 17d9c0a78f01ab552bd3ed5632788db0###
 $chkSinglePBTForced = GUICtrlCreateCheckbox(GetTranslated(636,61, "Force Single PB logoff"), $x-5, $y, -1, -1)
 	GUICtrlSetOnEvent(-1, "chkSinglePBTForced")
 	_GUICtrlSetTip(-1, GetTranslated(636,62, "This forces bot to exit CoC only one time prior to normal start of PB"))
@@ -181,6 +183,36 @@ $txtPBTimeForcedExit = GUICtrlCreateInput("16", $x + 130, $y, 30, 16, BitOR($GUI
 	GUICtrlSetLimit(-1, 3)
 	GUICtrlSetState(-1, $GUI_DISABLE)
 $lblPBTimeForcedExit1 = GUICtrlCreateLabel( GetTranslated(603,9, -1), $x+162, $y+1, 27, 15)
+;###Applied with Modification Applier###ID: f67fa44ad9a0b4d316aabb6805f5761c###
+	;========MOD: Put Heroes To Sleep Due To Personal Break LogOff========
+$y += 20
+$lblSleepHeroes = GuiCtrlCreateLabel("Put Heroes To Sleep:",$x-10, $y+3)
+	$txtTip = "You're able to Put Heroes To Sleep Before Closing CoC Due To Personal Break Logoff"
+	_GUICtrlSetTip(-1, $txtTip)
+	;-Barbarian King
+$IMGchkSleepBK = GUICtrlCreateIcon($pIconLib, $eIcnKing, $x+55 , $y+20, 24, 24)
+	$txtTip = "Barbarian King"
+	_GUICtrlSetTip(-1, $txtTip)
+$chkPBSleepBK = GUICtrlCreateCheckbox("",$x+60,$y+46,17, 17)
+	$txtTip = "Sleep Barbarian King Before Closing CoC Due To Personal Breake Logoff"
+	_GUICtrlSetTip(-1, $txtTip)
+	;-Archer Queen
+	$IMGchkSleepAQ = GUICtrlCreateIcon($pIconLib, $eIcnQueen, $x+84 , $y+20, 24, 24)
+	$txtTip = "Archer Queen"
+	_GUICtrlSetTip(-1, $txtTip)
+$chkPBSleepAQ = GUICtrlCreateCheckbox("",$x+89,$y+46,17, 17)
+	$txtTip = "Sleep Archer Queen Before Closing CoC Due To Personal Breake Logoff"
+	_GUICtrlSetTip(-1, $txtTip)
+	;-Grand Warden
+	$IMGchkSleepGW = GUICtrlCreateIcon($pIconLib, $eIcnWarden, $x+113 , $y+20, 24, 24)
+	$txtTip = "Grand Warden"
+	_GUICtrlSetTip(-1, $txtTip)
+$chkPBSleepGW = GUICtrlCreateCheckbox("",$x+118,$y+46,17, 17)
+	$txtTip = "Sleep Grand Warden Before Closing CoC Due To Personal Breake Logoff"
+	_GUICtrlSetTip(-1, $txtTip)
+$y +=45
+	;========END MOD: Put Heroes To Sleep Due To Personal Break LogOff========
+;###End Applied with Modification Applier###ID: f67fa44ad9a0b4d316aabb6805f5761c###
 
 $y +=30
 $chkTotalCampForced = GUICtrlCreateCheckbox(GetTranslated(636,46, "Force Total Army Camp")&":", $x-5, $y-5, -1, -1)

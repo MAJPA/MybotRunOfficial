@@ -49,6 +49,11 @@ Func checkAttackDisable($iSource, $Result = "")
 					If _CheckPixel($aSurrenderButton, $bCapturePixel) Then ; village search requires end battle 1s, so check for surrender/endbattle button
 						ReturnHome(False, False) ;If End battle is available
 					Else
+;###Applied with Modification Applier###ID: 87e5b4ae63f33b4f0a44dfbb9f00b3e5###
+						If $ichkPBSleepBK = 1 Then SleepHeroes("BK")
+						If $ichkPBSleepAQ = 1 Then SleepHeroes("AQ")
+						If $ichkPBSleepGW = 1 Then SleepHeroes("GW")
+;###End Applied with Modification Applier###ID: 87e5b4ae63f33b4f0a44dfbb9f00b3e5###
 						CloseCoC()
 					EndIf
 				Else
