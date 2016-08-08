@@ -686,6 +686,7 @@ Func Train()
 							Local $TotalQuantity = 0
 							$TotalQuantity = Floor(Eval("Don" & $TroopName[$i]) / $numBarracksAvaiables)
 							TrainIt(Eval("e" & $TroopName[$i]), $TotalQuantity)
+							Setlog ("Trained " & $TotalQuantity & " ~" & $TroopName[$i] & " Donated on Barrack: " & $brrNum)
 							If $brrNum >= $numBarracksAvaiables Then
 								Assign("Don" & $TroopName[$i], Eval("Don" & $TroopName[$i]) - ($TotalQuantity * $numBarracksAvaiables))
 							EndIf
@@ -693,6 +694,7 @@ Func Train()
 						Else
 							If $LastBarrackTrainDonatedTroop = $brrNum Then
 								TrainIt(Eval("e" & $TroopName[$i]), 1)
+								Setlog ("Trained 1 ~" & $TroopName[$i] & " Donated on Barrack: " & $brrNum)
 								Assign("Don" & $TroopName[$i], Eval("Don" & $TroopName[$i]) - 1)
 								$LastBarrackTrainDonatedTroop = $brrNum + 1
 								If $RunState = False Then Return
@@ -747,6 +749,7 @@ Func Train()
 								For $i = 0 To UBound($TroopName) - 1
 									If Eval("Don" & $TroopName[$i]) > 0 Then
 										TrainIt(Eval("e" & $TroopName[$i]), 1)
+										Setlog ("Trained 1 ~" & $TroopName[$i] & " Donated on Barrack: " & $brrNum)
 										Assign("Don" & $TroopName[$i], Eval("Don" & $TroopName[$i]) - 1)
 										$LastBarrackTrainDonatedTroop = $brrNum + 1
 									EndIf
@@ -1117,6 +1120,7 @@ Func Train()
 								Local $TotalQuantity = 0
 								$TotalQuantity = Floor(Eval("Don" & $TroopDarkName[$i]) / $numDarkBarracksAvaiables)
 								TrainIt(Eval("e" & $TroopDarkName[$i]), $TotalQuantity)
+								Setlog ("Trained " & $TotalQuantity & " ~" & $TroopDarkName[$i] & " Donated on Barrack: " & $brrNum)
 								If $brrDarkNum >= $numDarkBarracksAvaiables Then
 									Assign("Don" & $TroopDarkName[$i], Eval("Don" & $TroopDarkName[$i]) - ($TotalQuantity * $numDarkBarracksAvaiables))
 								EndIf
@@ -1124,6 +1128,7 @@ Func Train()
 							Else
 								If $LastDarkBarrackTrainDonatedTroop = $brrDarkNum Then
 									TrainIt(Eval("e" & $TroopDarkName[$i]), 1)
+									Setlog ("Trained 1~ " & $TroopDarkName[$i] & " Donated on Barrack: " & $brrNum)
 									Assign("Don" & $TroopDarkName[$i], Eval("Don" & $TroopDarkName[$i]) - 1)
 									$LastDarkBarrackTrainDonatedTroop = $brrDarkNum + 1
 									If $RunState = False Then Return
@@ -1161,6 +1166,7 @@ Func Train()
 									For $i = 0 To UBound($TroopDarkName) - 1
 										If Eval("Don" & $TroopDarkName[$i]) > 0 Then
 											TrainIt(Eval("e" & $TroopDarkName[$i]), 1)
+											Setlog ("Trained 1~ " & $TroopDarkName[$i] & " Donated on Barrack: " & $brrNum)
 											Assign("Don" & $TroopDarkName[$i], Eval("Don" & $TroopDarkName[$i]) - 1)
 											$LastDarkBarrackTrainDonatedTroop = $brrDarkNum + 1
 										EndIf
