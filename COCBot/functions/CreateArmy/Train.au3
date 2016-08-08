@@ -716,7 +716,7 @@ Func Train()
 						EndIf
 						If $RunState = False Then Return
 					Next
-					Local $x = 0
+					$i = 0
 					; Let's train it until doesn't exist any donated troops
 					While $IfExistTroopsToTrain = True
 						If _Sleep($iDelayTrain1) Then Return
@@ -766,7 +766,7 @@ Func Train()
 									EndIf
 									If $RunState = False Then Return
 								Next
-								If $IfExistTroopsToTrain = False Then return
+								If $IfExistTroopsToTrain = False Then Return
 								If $IfExistTroopsToTrain = True Then ExitLoop
 							EndIf
 							_TrainMoveBtn(+1) ;click Next button
@@ -776,13 +776,12 @@ Func Train()
 							If $RunState = False Then Return
 						WEnd
 						If _Sleep($iDelayTrain4) Then Return
-						$x += 1
-						If $x >= 3 Then
+						$i += 1
+						If CheckFullBarrack() Or $i >= 3 Then
+							$IfExistTroopsToTrain = False
 							For $i = 0 To UBound($TroopName) - 1
 								Assign("Don" & $TroopName[$i], 0)
-								If $RunState = False Then Return
 							Next
-							$IfExistTroopsToTrain = False
 							ExitLoop
 						EndIf
 					WEnd
@@ -1312,3 +1311,5 @@ Func Train()
 	UpdateStats()
 
 EndFunc   ;==>Train
+
+
