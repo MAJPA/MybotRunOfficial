@@ -36,7 +36,7 @@ Please see the file called LICENSE.
 Mybot uses non-GPL/GPL 3rd party libraries for extension (#SystemLibraryException): 
 - OpenCV - BSD license - repository : https://github.com/MyBotRun/Libraries
 - ImageSearch - GNU license - repository : https://github.com/MyBotRun/Libraries
-- ImgLoc - LGPL v3 License - A customized AForge.Imaging - library source : https://code.google.com/archive/p/aforge/
+- ImgLocV3 - Proprietary library from the Developer Trlopes 2016
 - Functional library MBRfunctions.dll - Proprietary library from the Developer Didipe 2015
 
 Contacts
