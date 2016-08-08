@@ -58,6 +58,8 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
 			If _SleepStatus($iDelaycheckObstacles4) Then Return ; 2 Minutes
 			PureClickP($aReloadButton, 1, 0, "#0128");Click on reload button
 			If $ichkSinglePBTForced = 1 Then $bGForcePBTUpdate = True
+			$Quickattack = False
+			$fullArmy = False
 			Return True
 		EndIf
 		;;;;;;;##### Connection Lost & OoS & Inactive & Maintenance #####;;;;;;;
