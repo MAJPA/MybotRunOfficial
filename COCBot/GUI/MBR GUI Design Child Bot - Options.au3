@@ -29,8 +29,14 @@ $grpLanguages = GUICtrlCreateGroup(GetTranslated(636,83, "GUI Language"), $x - 2
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 $y += 54
-$grpOnLoadBot = GUICtrlCreateGroup(GetTranslated(636,2, "When Bot Loads"), $x - 20, $y - 20, 210, 120)
+$grpOnLoadBot = GUICtrlCreateGroup(GetTranslated(636,2, "When Bot Loads"), $x - 20, $y - 20, 210, 140)
 	$y -= 4
+	$chkConnection = GUICtrlCreateCheckbox("Check Internet Connection", $x, $y, -1, -1)
+		$txtTip = "Check if your Internet Connection Lost Will Close Emulator" & @CRLF & _
+				"     AND IF YOUR INTERNET RECONNECTED, WILL BE BACK START EMULATOR"
+		_GUICtrlSetTip(-1, $txtTip)
+		GUICtrlSetState(-1, $GUI_CHECKED)
+	$y += 20
     $chkDisableSplash = GUICtrlCreateCheckbox(GetTranslated(636,100, "Disable Splash Screen"), $x, $y, -1, -1)
         $txtTip = GetTranslated(636,101, "Disables the splash screen on startup.")
         GUICtrlSetTip(-1, $txtTip)

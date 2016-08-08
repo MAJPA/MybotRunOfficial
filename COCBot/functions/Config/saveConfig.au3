@@ -574,6 +574,15 @@ Func saveConfig() ;Saves the controls settings to the config
 	$itxtRestartDark = GUICtrlRead($txtRestartDark)
 
 	; bot options gui -> variables ----------------------------------------------------
+
+	; Check Connections - Added by TheRevenor
+	If GUICtrlRead($chkConnection) = $GUI_CHECKED Then
+		$ichkConnection = 1
+	Else
+		$ichkConnection = 0
+	EndIf
+	IniWriteS($config, "general", "ChkConnect", $ichkConnection)
+
 	If GUICtrlRead($chkDisableSplash) = $GUI_CHECKED Then
 		$ichkDisableSplash = 1
 	Else
