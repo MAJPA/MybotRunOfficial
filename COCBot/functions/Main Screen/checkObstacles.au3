@@ -67,6 +67,7 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
 				If $ichkSinglePBTForced = 1 Then $bGForcePBTUpdate = True
 			Case _CheckPixel($aIsConnectLost, $bNoCapturePixel) ; Connection Lost
 				SetLog("Connection lost, Reloading CoC...", $COLOR_RED)
+				ChckInetCon()
 			Case _CheckPixel($aIsCheckOOS, $bNoCapturePixel) ; Check OoS
 				SetLog("Out of Sync Error, Reloading CoC...", $COLOR_RED)
 			Case _CheckPixel($aIsMaintenance, $bNoCapturePixel) ; Check Maintenance

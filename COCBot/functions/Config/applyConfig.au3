@@ -1908,6 +1908,14 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 
 	; apply bot options -----------------------------------------------------------------
 
+	; Check Connections - Added by TheRevenor
+	If $ichkConnection = 1 Then
+		GUICtrlSetState($chkConnection, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkConnection, $GUI_UNCHECKED)
+	EndIf
+
+
 	If $ichkDisableSplash = 1 Then
 		GUICtrlSetState($chkDisableSplash, $GUI_CHECKED)
 	Else
