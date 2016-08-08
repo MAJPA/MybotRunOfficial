@@ -58305,19 +58305,27 @@ ReleaseClicks()
 Next
 EndFunc
 Func GetXPosOfArmySlot($slotNumber, $xOffsetFor11Slot)
-Local $iAmount
+Local $SlotPixelColor, $SlotPixelColorTemp, $SlotPixelColor1
+$xOffsetFor11Slot -= 8
 Switch $slotNumber
-Case 0 To 1
+Case 0 To 4
 $SlotComp = 0
-Case 2 To 5
+Case 5
 $SlotComp = 1
 Case Else
 $SlotComp = 2
 EndSwitch
-If $atkTroops[11][0] = -1 Then
+If $slotNumber = $King Or $slotNumber = $Queen Or $slotNumber = $Warden Then $xOffsetFor11Slot += 8
+$SlotPixelColor = _ColorCheck(_GetPixelColor(834, 588 + $bottomOffsetY, True), Hex(0x040c0a, 6), 15)
+If $debugSetlog = 1 Then
+Setlog(" Slot 0  _ColorCheck 0x040c0a at (834," & 588 + $bottomOffsetY & "): " & $SlotPixelColor, $COLOR_PURPLE)
+$SlotPixelColorTemp = _GetPixelColor(834, 588 + $bottomOffsetY, $bCapturePixel)
+Setlog(" Slot 0  _GetPixelColo(834," & 588 + $bottomOffsetY & "): " & $SlotPixelColorTemp, $COLOR_PURPLE)
+EndIf
+If $SlotPixelColor = True Then
 Return $xOffsetFor11Slot + $SlotComp + ($slotNumber * 72)
 Else
-Return $xOffsetFor11Slot + $SlotComp + ($slotNumber * 72) - 30
+Return $xOffsetFor11Slot + $SlotComp + ($slotNumber * 72) - 13
 EndIf
 EndFunc
 Func GetSlotIndexFromXPos($xPos)
@@ -60059,9 +60067,9 @@ If $debugsetlogTrain = 1 Then SetLog("Making Poison Spell: " & $iPoisonSpell)
 If _sleep($iDelayTrain2) Then Return
 If $iPoisonSpell > 0 Then
 If _sleep($iDelayTrain2) Then Return
-If _ColorCheck(_GetPixelColor(233 + 107 * 0, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And  _ColorCheck(_GetPixelColor(235 + 107 * 0, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then
+If _ColorCheck(_GetPixelColor(231 + 107 * 0, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And  _ColorCheck(_GetPixelColor(234 + 107 * 0, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then
 setlog("Not enough Elixir to create Poison Spell", $COLOR_RED)
-If $debugsetlogTrain = 1 Then setlog("colorceck: " & 233 + 107 * 0& "," &  375 + $midOffsetY,$COLOR_RED)
+If $debugsetlogTrain = 1 Then setlog("colorceck: " & 233 + 107 * 0 & "," & 375 + $midOffsetY, $COLOR_RED)
 Return
 ElseIf _ColorCheck(_GetPixelColor(200, 346 + $midOffsetY, True), Hex(0x414141, 6), 20) Then
 setlog("Spell Factory Full", $COLOR_RED)
@@ -60091,7 +60099,7 @@ If $debugsetlogTrain = 1 Then SetLog("Making Earthquake Spell: " & $iEarthSpell)
 If _sleep($iDelayTrain2) Then Return
 If $iEarthSpell > 0 Then
 If _sleep($iDelayTrain2) Then Return
-If _ColorCheck(_GetPixelColor(233 + 107 * 1, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And  _ColorCheck(_GetPixelColor(235 + 107 * 1, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then
+If _ColorCheck(_GetPixelColor(231 + 107 * 1, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And  _ColorCheck(_GetPixelColor(234 + 107 * 1, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then
 setlog("Not enough Elixir to create Earthquake Spell", $COLOR_RED)
 Return
 ElseIf _ColorCheck(_GetPixelColor(200, 346 + $midOffsetY, True), Hex(0x414141, 6), 20) Then
@@ -60122,7 +60130,7 @@ If $debugsetlogTrain = 1 Then SetLog("Making Haste Spell: " & $iHasteSpell)
 If _sleep($iDelayTrain2) Then Return
 If $iHasteSpell > 0 Then
 If _sleep($iDelayTrain2) Then Return
-If _ColorCheck(_GetPixelColor(233 + 107 * 2, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And  _ColorCheck(_GetPixelColor(235 + 107 * 2, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then
+If _ColorCheck(_GetPixelColor(231 + 107 * 2, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And  _ColorCheck(_GetPixelColor(234 + 107 * 2, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then
 setlog("Not enough Elixir to create Haste Spell", $COLOR_RED)
 Return
 ElseIf _ColorCheck(_GetPixelColor(200, 346 + $midOffsetY, True), Hex(0x414141, 6), 20) Then
@@ -60153,7 +60161,7 @@ If $debugsetlogTrain = 1 Then SetLog("Making Skeleton Spell: " & $iSkeletonSpell
 If _sleep($iDelayTrain2) Then Return
 If $iSkeletonSpell > 0 Then
 If _sleep($iDelayTrain2) Then Return
-If _ColorCheck(_GetPixelColor(233 + 107 * 3, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False  Then
+If _ColorCheck(_GetPixelColor(231 + 107 * 3, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And  _ColorCheck(_GetPixelColor(234 + 107 * 3, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then
 setlog("Not enough Elixir to create Skeleton Spell", $COLOR_RED)
 Return
 ElseIf _ColorCheck(_GetPixelColor(200, 346 + $midOffsetY, True), Hex(0x414141, 6), 20) Then
@@ -60462,45 +60470,6 @@ EndFunc
 Global $LastBarrackTrainDonatedTroop = 1
 Global $LastDarkBarrackTrainDonatedTroop = 1
 Func Train()
-If $iAtkAlgorithm[$LB] = 2 Then
-Local $TempTroopGroup[12][3] = [["Gobl", 3, 1], ["Arch", 1, 1], ["Giant", 2, 5], ["Wall", 4, 2], ["Barb", 0, 1], ["Heal", 7, 14], ["Pekk", 9, 25], ["Ball", 5, 5], ["Wiza", 6, 4], ["Drag", 8, 20], ["BabyD", 10, 10], ["Mine", 11, 5]]
-$TroopGroup = $TempTroopGroup
-Local $tempTroopName[UBound($TroopGroup, 1)]
-$TroopName = $tempTroopName
-Local $TempTroopNamePosition[UBound($TroopGroup, 1)]
-$TroopNamePosition = $TempTroopNamePosition
-Local $TempTroopHeight[UBound($TroopGroup, 1)]
-$TroopHeight = $TempTroopHeight
-Local $TempTroopGroupDark[7][3] = [["Mini", 0, 2], ["Hogs", 1, 5], ["Valk", 2, 8], ["Gole", 3, 30], ["Witc", 4, 12], ["Lava", 5, 30], ["Bowl", 6, 6]]
-$TroopGroupDark = $TempTroopGroupDark
-Local $TempTroopDarkName[UBound($TroopGroupDark, 1)]
-$TroopDarkName = $TempTroopDarkName
-Local $TempTroopDarkNamePosition[UBound($TroopGroupDark, 1)]
-$TroopDarkNamePosition = $TempTroopDarkNamePosition
-Local $TempSpellGroup[3][3] = [["PSpell", 0, 1], ["ESpell", 1, 1], ["HaSpell", 2, 1]]
-$SpellGroup = $TempSpellGroup
-Local $TempSpellName[UBound($SpellGroup, 1)]
-$SpellName = $TempSpellName
-Local $TempSpellNamePosition[UBound($SpellGroup, 1)]
-$SpellNamePosition = $TempSpellNamePosition
-Local $TempSpellHeight[UBound($SpellGroup, 1)]
-$SpellHeight = $TempSpellHeight
-For $i = 0 To UBound($TroopGroup, 1) - 1
-$TroopName[$i] = $TroopGroup[$i][0]
-$TroopNamePosition[$i] = $TroopGroup[$i][1]
-$TroopHeight[$i] = $TroopGroup[$i][2]
-Next
-For $i = 0 To UBound($TroopGroupDark, 1) - 1
-$TroopDarkName[$i] = $TroopGroupDark[$i][0]
-$TroopDarkNamePosition[$i] = $TroopGroupDark[$i][1]
-$TroopDarkHeight[$i] = $TroopGroupDark[$i][2]
-Next
-For $i = 0 To UBound($SpellGroup, 1) - 1
-$SpellName[$i] = $SpellGroup[$i][0]
-$SpellNamePosition[$i] = $SpellGroup[$i][1]
-$SpellHeight[$i] = $SpellGroup[$i][2]
-Next
-EndIf
 Local $anotherTroops
 Local $tempCounter = 0
 Local $tempElixir = ""
@@ -60657,7 +60626,7 @@ For $i = 0 To UBound($TroopName) - 1
 If $TroopName[$i] <> "Barb" And $TroopName[$i] <> "Arch" And $TroopName[$i] <> "Gobl" And Number(Eval($TroopName[$i] & "Comp")) <> 0 Then
 If $debugsetlogTrain = 1 Then SetLog("GUI ASSIGN to $Cur" & $TroopName[$i] & ":" & Eval($TroopName[$i] & "Comp") & " Units", $COLOR_PURPLE)
 If $icmbTroopComp <> 8 And Eval("Cur" & $TroopName[$i]) * -1 >= Eval($TroopName[$i] & "Comp") * 2.0 Then
-SetLog("Way Too many " & $TroopName[$i] & ", Dont Train.")
+SetLog("Way Too many " & $TroopName[$i] & ", Don't Train.")
 Assign(("Cur" & $TroopName[$i]), 0)
 $anotherTroops += Eval($TroopName[$i] & "Comp") * $TroopHeight[$i]
 Else
@@ -60898,6 +60867,7 @@ Else
 If $debugsetlogTrain = 1 Then SetLog("---------TRAIN NEW BARRACK MODE------------------------", $COLOR_PURPLE)
 If $FirstStart = True Then SetLog("Remove previous queued troops and start training")
 If $fullarmy = True Then SetLog("Build troops before attacking.")
+Local $IfExistTroopsToTrain = False
 While isBarrack() And $isNormalBuild
 $brrNum += 1
 If $debugsetlogTrain = 1 Then SetLog("====== Checking available Barrack: " & $brrNum & " ======", $COLOR_PURPLE)
@@ -61030,21 +61000,106 @@ EndIf
 If $RunState = False Then Return
 Next
 If $icmbTroopComp <> 8 And $fullarmy = False And $FirstStart = False Then
+For $i = 0 To UBound($TroopName) - 1
+If Eval("Don" & $TroopName[$i]) > 0 Then
+If Eval("Don" & $TroopName[$i]) >= 2 * $numBarracksAvaiables Then
+Local $TotalQuantity = 0
+$TotalQuantity = Floor(Eval("Don" & $TroopName[$i]) / $numBarracksAvaiables)
+TrainIt(Eval("e" & $TroopName[$i]), $TotalQuantity)
+If $brrNum >= $numBarracksAvaiables Then
+Assign("Don" & $TroopName[$i], Eval("Don" & $TroopName[$i]) - ($TotalQuantity * $numBarracksAvaiables))
+EndIf
+If $RunState = False Then Return
+Else
+If $LastBarrackTrainDonatedTroop = $brrNum Then
+TrainIt(Eval("e" & $TroopName[$i]), 1)
+Assign("Don" & $TroopName[$i], Eval("Don" & $TroopName[$i]) - 1)
+$LastBarrackTrainDonatedTroop = $brrNum + 1
+If $RunState = False Then Return
+EndIf
+EndIf
+EndIf
+Next
+If $LastBarrackTrainDonatedTroop > $numBarracksAvaiables Then
+$LastBarrackTrainDonatedTroop = 1
+EndIf
+If $debugsetlogTrain = 1 Then Setlog("$LastBarrackTrainDonatedTroop: " & $LastBarrackTrainDonatedTroop)
+If $debugsetlogTrain = 1 Then Setlog("Barrack: " & $brrNum)
+If $brrNum >= $numBarracksAvaiables Then
+For $i = 0 To UBound($TroopName) - 1
+If Eval("Don" & $TroopName[$i]) > 0 Then
+$IfExistTroopsToTrain = True
+EndIf
+If $RunState = False Then Return
+Next
+Local $x = 0
+While $IfExistTroopsToTrain = True
+If _Sleep($iDelayTrain1) Then Return
+ClickP($aAway, 2, $iDelayTrain5, "#0501")
+If WaitforPixel(28, 505 + $bottomOffsetY, 30, 507 + $bottomOffsetY, Hex(0xE4A438, 6), 5, 10) Then
+If $debugsetlogTrain = 1 Then SetLog("Click $aArmyTrainButton", $COLOR_GREEN)
+If $iUseRandomClick = 0 Then
+Click($aArmyTrainButton[0], $aArmyTrainButton[1], 1, 0, "#9998")
+Else
+ClickR($aArmyTrainButtonRND, $aArmyTrainButton[0], $aArmyTrainButton[1], 1, 0)
+EndIf
+EndIf
+$icount = 0
+While IsTrainPage() = False
+If _Sleep($iDelayTrain1) Then Return
+$icount += 1
+If $icount = 20 Then ExitLoop
+WEnd
+If Not (IsTrainPage()) Then Return
+_TrainMoveBtn(+1)
+$brrNum = 1
+If _Sleep($iDelayTrain2) Then Return
+While isBarrack()
+If _Sleep($iDelayTrain1) Then Return
+If $debugsetlogTrain = 1 Then SetLog("Call Func TrainIt Rest Donated Troops", $COLOR_PURPLE)
 If $LastBarrackTrainDonatedTroop = $brrNum Then
 For $i = 0 To UBound($TroopName) - 1
 If Eval("Don" & $TroopName[$i]) > 0 Then
 TrainIt(Eval("e" & $TroopName[$i]), 1)
 Assign("Don" & $TroopName[$i], Eval("Don" & $TroopName[$i]) - 1)
-If $debugsetlogTrain = 1 Then Setlog("Train 1 " & NameOfTroop(Eval("e" & $TroopName[$i])) & " remain " & Eval("Don" & $TroopName[$i]) & " to train.")
 $LastBarrackTrainDonatedTroop = $brrNum + 1
-If $LastBarrackTrainDonatedTroop > $numBarracksAvaiables Then
-$LastBarrackTrainDonatedTroop = 1
-EndIf
 EndIf
 If $RunState = False Then Return
 Next
+If $LastBarrackTrainDonatedTroop > $numBarracksAvaiables Then
+$LastBarrackTrainDonatedTroop = 1
+EndIf
 If $debugsetlogTrain = 1 Then Setlog("$LastBarrackTrainDonatedTroop: " & $LastBarrackTrainDonatedTroop)
 If $debugsetlogTrain = 1 Then Setlog("Barrack: " & $brrNum)
+EndIf
+If $brrNum >= $numBarracksAvaiables Then
+$IfExistTroopsToTrain = False
+For $i = 0 To UBound($TroopName) - 1
+If Eval("Don" & $TroopName[$i]) > 0 Then
+$IfExistTroopsToTrain = True
+EndIf
+If $RunState = False Then Return
+Next
+If $IfExistTroopsToTrain = False Then return
+If $IfExistTroopsToTrain = True Then ExitLoop
+EndIf
+_TrainMoveBtn(+1)
+$brrNum += 1
+If _Sleep($iDelayTrain3) Then Return
+If Not (IsTrainPage()) Then Return
+If $RunState = False Then Return
+WEnd
+If _Sleep($iDelayTrain4) Then Return
+$x += 1
+If $x >= 3 Then
+For $i = 0 To UBound($TroopName) - 1
+Assign("Don" & $TroopName[$i], 0)
+If $RunState = False Then Return
+Next
+$IfExistTroopsToTrain = False
+ExitLoop
+EndIf
+WEnd
 EndIf
 If _ColorCheck(_GetPixelColor(599, 202 + $midOffsetY, True), Hex(0xa8d070, 6), 20) = False Then
 $BarrackStatus[$brrNum - 1] = False
@@ -61330,21 +61385,86 @@ EndIf
 EndIf
 Next
 If $icmbTroopComp <> 8 And $fullarmy = False And $FirstStart = False Then
+$IfExistTroopsToTrain = False
+For $i = 0 To UBound($TroopDarkName) - 1
+If Eval("Don" & $TroopDarkName[$i]) > 0 Then
+If Eval("Don" & $TroopDarkName[$i]) >= 2 * $numDarkBarracksAvaiables Then
+Local $TotalQuantity = 0
+$TotalQuantity = Floor(Eval("Don" & $TroopDarkName[$i]) / $numDarkBarracksAvaiables)
+TrainIt(Eval("e" & $TroopDarkName[$i]), $TotalQuantity)
+If $brrDarkNum >= $numDarkBarracksAvaiables Then
+Assign("Don" & $TroopDarkName[$i], Eval("Don" & $TroopDarkName[$i]) - ($TotalQuantity * $numDarkBarracksAvaiables))
+EndIf
+If $RunState = False Then Return
+Else
+If $LastDarkBarrackTrainDonatedTroop = $brrDarkNum Then
+TrainIt(Eval("e" & $TroopDarkName[$i]), 1)
+Assign("Don" & $TroopDarkName[$i], Eval("Don" & $TroopDarkName[$i]) - 1)
+$LastDarkBarrackTrainDonatedTroop = $brrDarkNum + 1
+If $RunState = False Then Return
+EndIf
+EndIf
+EndIf
+Next
+If $LastDarkBarrackTrainDonatedTroop > $numDarkBarracksAvaiables Then
+$LastDarkBarrackTrainDonatedTroop = 1
+EndIf
+If $debugsetlogTrain = 1 Then Setlog("$LastDarkBarrackTrainDonatedTroop: " & $LastDarkBarrackTrainDonatedTroop)
+If $debugsetlogTrain = 1 Then Setlog("Dark Barrack: " & $brrDarkNum)
+If $brrDarkNum >= $numDarkBarracksAvaiables Then
+For $i = 0 To UBound($TroopDarkName) - 1
+If Eval("Don" & $TroopDarkName[$i]) > 0 Then
+$IfExistTroopsToTrain = True
+EndIf
+If $RunState = False Then Return
+Next
+$i = 0
+If $IfExistTroopsToTrain = True Then
+If $brrDarkNum = 2 Then
+_TrainMoveBtn(-1)
+$brrDarkNum = 1
+EndIf
+While isDarkBarrack()
+If _Sleep($iDelayTrain1) Then Return
+If $debugsetlogTrain = 1 Then SetLog("Call Func TrainIt Rest Donated Dark Troops", $COLOR_PURPLE)
 If $LastDarkBarrackTrainDonatedTroop = $brrDarkNum Then
 For $i = 0 To UBound($TroopDarkName) - 1
 If Eval("Don" & $TroopDarkName[$i]) > 0 Then
 TrainIt(Eval("e" & $TroopDarkName[$i]), 1)
 Assign("Don" & $TroopDarkName[$i], Eval("Don" & $TroopDarkName[$i]) - 1)
-If $debugsetlogTrain = 1 Then Setlog("Train 1 " & NameOfTroop(Eval("e" & $TroopDarkName[$i])) & " remain " & Eval("Don" & $TroopDarkName[$i]) & " to train.")
 $LastDarkBarrackTrainDonatedTroop = $brrDarkNum + 1
+EndIf
+If $RunState = False Then Return
+Next
 If $LastDarkBarrackTrainDonatedTroop > $numDarkBarracksAvaiables Then
 $LastDarkBarrackTrainDonatedTroop = 1
 EndIf
-EndIf
-Next
-If $debugsetlogTrain = 1 Then Setlog("Dark Barrack: " & $brrDarkNum)
 If $debugsetlogTrain = 1 Then Setlog("$LastDarkBarrackTrainDonatedTroop: " & $LastDarkBarrackTrainDonatedTroop)
+If $debugsetlogTrain = 1 Then Setlog("Dark Barrack: " & $brrDarkNum)
+EndIf
+If $brrDarkNum >= $numDarkBarracksAvaiables Then
+$IfExistTroopsToTrain = False
+For $i = 0 To UBound($TroopDarkName) - 1
+If Eval("Don" & $TroopDarkName[$i]) > 0 Then
+$IfExistTroopsToTrain = True
+EndIf
 If $RunState = False Then Return
+Next
+If $IfExistTroopsToTrain = False Then ExitLoop
+EndIf
+If $brrDarkNum = 1 Then
+_TrainMoveBtn(+1)
+$brrDarkNum = 2
+EndIf
+If $brrDarkNum = 2 Then
+_TrainMoveBtn(-1)
+$brrDarkNum = 1
+EndIf
+If Not (IsTrainPage()) Then Return
+If $RunState = False Then Return
+If $i = 6 Then ExitLoop
+WEnd
+EndIf
 EndIf
 If _ColorCheck(_GetPixelColor(599, 202 + $midOffsetY, True), Hex(0xa8d070, 6), 20) = False Then
 $BarrackDarkStatus[$brrDarkNum - 1] = False
