@@ -9,7 +9,7 @@ NOTE  |Will drop Barb, Arch, All Heroes, CC and use Rage spell if enabled from G
       |                                                                                               |
 
       |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|
-SIDE  |1          |1          |3          |0          |0          |1          |           |           |
+SIDE  |1          |1          |3          |0          |0          |1          |           |EAGLE      |
 
 
       |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|MAKE VECTOR FOR FRONT SIDE ATTACK: GIANTS, BARBARIANS AND ARCHERS...
