@@ -401,6 +401,22 @@ Func Algorithm_AttackCSV($testattack = False,$captureredarea=true)
 
 	Setlog(">> Total time: " & Round(TimerDiff($hTimerTOTAL) / 1000, 2) & " seconds", $COLOR_BLUE)
 
+	; 05A -  EAGLE SIDE ------------------------------------------------------------------------------
+
+	If $attackcsv_locate_Eagle = 1 then
+		$hTimer = TimerInit()
+		SuspendAndroid()
+		Local $return = returnSingleMatch(@ScriptDir & "\images\WeakBase\Eagle")
+		ResumeAndroid()
+		If int($return[5][0]) <> 0 Then
+			Local $temp = [Int($return[5][0]), Int($return[5][1])]
+			$PixelEaglePos = $temp
+			Setlog("> Eagle located in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds", $COLOR_BLUE)
+		Else
+			Setlog("> Eagle detection error", $COLOR_BLUE)
+		EndIf
+	EndIf
+
 	; 06 - DEBUGIMAGE ------------------------------------------------------------------------
 	If $makeIMGCSV = 1 Then AttackCSVDEBUGIMAGE() ;make IMG debug
 

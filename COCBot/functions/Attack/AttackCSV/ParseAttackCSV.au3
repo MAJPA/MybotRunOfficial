@@ -296,143 +296,156 @@ Func ParseAttackCSV($debug = False)
 					Case "SIDE"
 						ReleaseClicks()
 						Setlog("Calculate main side... ")
-						If StringUpper($value8) = "TOP-LEFT" Or StringUpper($value8) = "TOP-RIGHT" Or StringUpper($value8) = "BOTTOM-LEFT" Or StringUpper($value8) = "BOTTOM-RIGHT" Then
-							$MAINSIDEMAINSIDE = StringUpper($value8)
-							Setlog("Forced side: " & StringUpper($value8))
-						Else
-							Local $heightTopLeft = 0, $heightTopRight = 0, $heightBottomLeft = 0, $heightBottomRight = 0
-
-							For $i = 0 To UBound($PixelMine) - 1
-								Local $str = ""
-								Local $pixel = $PixelMine[$i]
-								If UBound($pixel) = 2 Then
-									Switch StringLeft(Slice8($pixel), 1)
-										Case 1, 2
-											$heightBottomRight += Int($value1)
-										Case 3, 4
-											$heightTopRight += Int($value1)
-										Case 5, 6
-											$heightTopLeft += Int($value1)
-										Case 7, 8
-											$heightBottomLeft += Int($value1)
-									EndSwitch
-								EndIf
-							Next
-
-							For $i = 0 To UBound($PixelElixir) - 1
-								Local $str = ""
-								Local $pixel = $PixelElixir[$i]
-								If UBound($pixel) = 2 Then
-									Switch StringLeft(Slice8($pixel), 1)
-										Case 1, 2
-											$heightBottomRight += Int($value2)
-										Case 3, 4
-											$heightTopRight += Int($value2)
-										Case 5, 6
-											$heightTopLeft += Int($value2)
-										Case 7, 8
-											$heightBottomLeft += Int($value2)
-									EndSwitch
-								EndIf
-							Next
-
-							For $i = 0 To UBound($PixelDarkElixir) - 1
-								Local $str = ""
-								Local $pixel = $PixelDarkElixir[$i]
-								If UBound($pixel) = 2 Then
-									Switch StringLeft(Slice8($pixel), 1)
-										Case 1, 2
-											$heightBottomRight += Int($value3)
-										Case 3, 4
-											$heightTopRight += Int($value3)
-										Case 5, 6
-											$heightTopLeft += Int($value3)
-										Case 7, 8
-											$heightBottomLeft += Int($value3)
-									EndSwitch
-								EndIf
-							Next
-
-							If IsArray($GoldStoragePos) Then
-								For $i = 0 To UBound($GoldStoragePos) - 1
-									Local $pixel = $GoldStoragePos[$i]
+						If StringUpper($value8) = "EAGLE" then 
+							Switch StringLeft(Slice8($PixelEaglePos), 1)
+								Case 1, 2
+									$MAINSIDEMAINSIDE = "BOTTOM-RIGHT"
+								Case 3, 4
+									$MAINSIDEMAINSIDE = "TOP-RIGHT"
+								Case 5, 6
+									$MAINSIDEMAINSIDE = "TOP-LEFT"
+								Case 7, 8
+									$MAINSIDEMAINSIDE = "BOTTOM-LEFT"
+							EndSwitch					
+						Else 
+							If StringUpper($value8) = "TOP-LEFT" Or StringUpper($value8) = "TOP-RIGHT" Or StringUpper($value8) = "BOTTOM-LEFT" Or StringUpper($value8) = "BOTTOM-RIGHT" Then
+								$MAINSIDEMAINSIDE = StringUpper($value8)
+								Setlog("Forced side: " & StringUpper($value8))
+							Else
+								Local $heightTopLeft = 0, $heightTopRight = 0, $heightBottomLeft = 0, $heightBottomRight = 0
+								
+								For $i = 0 To UBound($PixelMine) - 1
+									Local $str = ""
+									Local $pixel = $PixelMine[$i]
 									If UBound($pixel) = 2 Then
 										Switch StringLeft(Slice8($pixel), 1)
 											Case 1, 2
-												$heightBottomRight += Int($value4)
+												$heightBottomRight += Int($value1)
 											Case 3, 4
-												$heightTopRight += Int($value4)
+												$heightTopRight += Int($value1)
 											Case 5, 6
-												$heightTopLeft += Int($value4)
+												$heightTopLeft += Int($value1)
 											Case 7, 8
-												$heightBottomLeft += Int($value4)
+												$heightBottomLeft += Int($value1)
 										EndSwitch
 									EndIf
 								Next
-							EndIf
 
-							If IsArray($ElixirStoragePos) Then
-								For $i = 0 To UBound($ElixirStoragePos) - 1
-									Local $pixel = $ElixirStoragePos[$i]
+								For $i = 0 To UBound($PixelElixir) - 1
+									Local $str = ""
+									Local $pixel = $PixelElixir[$i]
 									If UBound($pixel) = 2 Then
 										Switch StringLeft(Slice8($pixel), 1)
 											Case 1, 2
-												$heightBottomRight += Int($value5)
+												$heightBottomRight += Int($value2)
 											Case 3, 4
-												$heightTopRight += Int($value5)
+												$heightTopRight += Int($value2)
 											Case 5, 6
-												$heightTopLeft += Int($value5)
+												$heightTopLeft += Int($value2)
 											Case 7, 8
-												$heightBottomLeft += Int($value5)
+												$heightBottomLeft += Int($value2)
 										EndSwitch
 									EndIf
 								Next
+
+								For $i = 0 To UBound($PixelDarkElixir) - 1
+									Local $str = ""
+									Local $pixel = $PixelDarkElixir[$i]
+									If UBound($pixel) = 2 Then
+										Switch StringLeft(Slice8($pixel), 1)
+											Case 1, 2
+												$heightBottomRight += Int($value3)
+											Case 3, 4
+												$heightTopRight += Int($value3)
+											Case 5, 6
+												$heightTopLeft += Int($value3)
+											Case 7, 8
+												$heightBottomLeft += Int($value3)
+										EndSwitch
+									EndIf
+								Next
+
+								If IsArray($GoldStoragePos) Then
+									For $i = 0 To UBound($GoldStoragePos) - 1
+										Local $pixel = $GoldStoragePos[$i]
+										If UBound($pixel) = 2 Then
+											Switch StringLeft(Slice8($pixel), 1)
+												Case 1, 2
+													$heightBottomRight += Int($value4)
+												Case 3, 4
+													$heightTopRight += Int($value4)
+												Case 5, 6
+													$heightTopLeft += Int($value4)
+												Case 7, 8
+													$heightBottomLeft += Int($value4)
+											EndSwitch
+										EndIf
+									Next
+								EndIf
+
+								If IsArray($ElixirStoragePos) Then
+									For $i = 0 To UBound($ElixirStoragePos) - 1
+										Local $pixel = $ElixirStoragePos[$i]
+										If UBound($pixel) = 2 Then
+											Switch StringLeft(Slice8($pixel), 1)
+												Case 1, 2
+													$heightBottomRight += Int($value5)
+												Case 3, 4
+													$heightTopRight += Int($value5)
+												Case 5, 6
+													$heightTopLeft += Int($value5)
+												Case 7, 8
+													$heightBottomLeft += Int($value5)
+											EndSwitch
+										EndIf
+									Next
+								EndIf
+
+								Switch StringLeft(Slice8($darkelixirStoragePos), 1)
+									Case 1, 2
+										$heightBottomRight += Int($value6)
+									Case 3, 4
+										$heightTopRight += Int($value6)
+									Case 5, 6
+										$heightTopLeft += Int($value6)
+									Case 7, 8
+										$heightBottomLeft += Int($value6)
+								EndSwitch
+
+								$pixel = StringSplit($thx & "-" & $thy, "-", 2)
+								Switch StringLeft(Slice8($pixel), 1)
+									Case 1, 2
+										$heightBottomRight += Int($value7)
+									Case 3, 4
+										$heightTopRight += Int($value7)
+									Case 5, 6
+										$heightTopLeft += Int($value7)
+									Case 7, 8
+										$heightBottomLeft += Int($value7)
+								EndSwitch
+
+								Local $maxValue = $heightBottomRight
+								Local $sidename = "BOTTOM-RIGHT"
+
+								If $heightTopLeft > $maxValue Then
+									$maxValue = $heightTopLeft
+									$sidename = "TOP-LEFT"
+								EndIf
+
+								If $heightTopRight > $maxValue Then
+									$maxValue = $heightTopRight
+									$sidename = "TOP-RIGHT"
+								EndIf
+
+								If $heightBottomLeft > $maxValue Then
+									$maxValue = $heightBottomLeft
+									$sidename = "BOTTOM-LEFT"
+								EndIf
+
+								Setlog("Mainside: " & $sidename & " (top-left:" & $heightTopLeft & " top-right:" & $heightTopRight & " bottom-left:" & $heightBottomLeft & " bottom-right:" & $heightBottomRight)
+								$MAINSIDE = $sidename
 							EndIf
-
-							Switch StringLeft(Slice8($darkelixirStoragePos), 1)
-								Case 1, 2
-									$heightBottomRight += Int($value6)
-								Case 3, 4
-									$heightTopRight += Int($value6)
-								Case 5, 6
-									$heightTopLeft += Int($value6)
-								Case 7, 8
-									$heightBottomLeft += Int($value6)
-							EndSwitch
-
-							$pixel = StringSplit($thx & "-" & $thy, "-", 2)
-							Switch StringLeft(Slice8($pixel), 1)
-								Case 1, 2
-									$heightBottomRight += Int($value7)
-								Case 3, 4
-									$heightTopRight += Int($value7)
-								Case 5, 6
-									$heightTopLeft += Int($value7)
-								Case 7, 8
-									$heightBottomLeft += Int($value7)
-							EndSwitch
-
-							Local $maxValue = $heightBottomRight
-							Local $sidename = "BOTTOM-RIGHT"
-
-							If $heightTopLeft > $maxValue Then
-								$maxValue = $heightTopLeft
-								$sidename = "TOP-LEFT"
-							EndIf
-
-							If $heightTopRight > $maxValue Then
-								$maxValue = $heightTopRight
-								$sidename = "TOP-RIGHT"
-							EndIf
-
-							If $heightBottomLeft > $maxValue Then
-								$maxValue = $heightBottomLeft
-								$sidename = "BOTTOM-LEFT"
-							EndIf
-
-							Setlog("Mainside: " & $sidename & " (top-left:" & $heightTopLeft & " top-right:" & $heightTopRight & " bottom-left:" & $heightBottomLeft & " bottom-right:" & $heightBottomRight)
-							$MAINSIDE = $sidename
-						EndIf
+						EndIf 
 						Switch $MAINSIDE
 							Case "BOTTOM-RIGHT"
 								$FRONT_LEFT = "BOTTOM-RIGHT-DOWN"

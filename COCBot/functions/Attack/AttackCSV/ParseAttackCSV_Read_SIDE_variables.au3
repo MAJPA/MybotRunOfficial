@@ -21,6 +21,7 @@ Func ParseAttackCSV_Read_SIDE_variables()
 	$attackcsv_locate_elixir_storage = 0
 	$attackcsv_locate_dark_storage = 0
 	$attackcsv_locate_townhall = 0
+	$attackcsv_locate_Eagle = 0 
 
 	;Local $filename = "attack1"
 	If $iMatchMode = $DB Then
@@ -52,20 +53,24 @@ Func ParseAttackCSV_Read_SIDE_variables()
 				$value9 = StringStripWS(StringUpper($acommand[10]), 2)
 
 				If $command = "SIDE" Then
-					;forced side
-					If StringUpper($value8) = "TOP-LEFT" Or StringUpper($value8) = "TOP-RIGHT" Or StringUpper($value8) = "BOTTOM-LEFT" Or StringUpper($value8) = "BOTTOM-RIGHT" Then
-						;keep original values
+					If StringUpper($value8) = "EAGLE" then 
+						$attackcsv_locate_Eagle = 1
 					Else
-						;if this line uses a building, then it must be detected
-						If Int($value1) > 0 Then $attackcsv_locate_mine = 1
-						If Int($value2) > 0 Then $attackcsv_locate_elixir = 1
-						If Int($value3) > 0 Then $attackcsv_locate_drill = 1
-						If Int($value4) > 0 Then $attackcsv_locate_gold_storage = 1
-						If Int($value5) > 0 Then $attackcsv_locate_elixir_storage = 1
-						If Int($value6) > 0 Then $attackcsv_locate_dark_storage = 1
-						If Int($value7) > 0 Then $attackcsv_locate_townhall = 1
+						;forced side
+						If StringUpper($value8) = "TOP-LEFT" Or StringUpper($value8) = "TOP-RIGHT" Or StringUpper($value8) = "BOTTOM-LEFT" Or StringUpper($value8) = "BOTTOM-RIGHT" Then
+							;keep original values
+						Else
+							;if this line uses a building, then it must be detected
+							If Int($value1) > 0 Then $attackcsv_locate_mine = 1
+							If Int($value2) > 0 Then $attackcsv_locate_elixir = 1
+							If Int($value3) > 0 Then $attackcsv_locate_drill = 1
+							If Int($value4) > 0 Then $attackcsv_locate_gold_storage = 1
+							If Int($value5) > 0 Then $attackcsv_locate_elixir_storage = 1
+							If Int($value6) > 0 Then $attackcsv_locate_dark_storage = 1
+							If Int($value7) > 0 Then $attackcsv_locate_townhall = 1
 
-					EndIf
+						EndIf
+					EndIf 
 
 				EndIf
 			EndIf
