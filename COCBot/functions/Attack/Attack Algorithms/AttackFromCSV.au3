@@ -406,15 +406,16 @@ Func Algorithm_AttackCSV($testattack = False,$captureredarea=true)
 	If $attackcsv_locate_Eagle = 1 then
 		$hTimer = TimerInit()
 		SuspendAndroid()
-		Local $return = returnSingleMatch(@ScriptDir & "\images\WeakBase\Eagle")
+		Local $return = returnHighestLevelSingleMatch(@ScriptDir & "\images\WeakBase\Eagle")
 		ResumeAndroid()
-		If int($return[5][0]) <> 0 Then
+		;setlog("$return :" & $return[0])
+		If $return[0] <> "None" then
 			Local $temp = [Int($return[5][0]), Int($return[5][1])]
 			$PixelEaglePos = $temp
 			Setlog("> Eagle located in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds", $COLOR_BLUE)
 		Else
 			$PixelEaglePos = -1
-			Setlog("> Eagle detection error", $COLOR_BLUE)
+			Setlog("> Eagle not detected!!", $COLOR_BLUE)
 		EndIf
 	EndIf
 
