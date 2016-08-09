@@ -413,6 +413,7 @@ Func Algorithm_AttackCSV($testattack = False,$captureredarea=true)
 			$PixelEaglePos = $temp
 			Setlog("> Eagle located in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds", $COLOR_BLUE)
 		Else
+			$PixelEaglePos = -1
 			Setlog("> Eagle detection error", $COLOR_BLUE)
 		EndIf
 	EndIf

@@ -1,9 +1,9 @@
-NOTE  |Author: karthik  Attack: TH9 GoWiPe
+NOTE  |Author: MAJPA  Attack: TH9 GoWiPe/EAGLE SIDE ATTACK
 NOTE  |Modified: MonkeyHunter - ver. 1.2d - 10.05.2016
 NOTE  |Make these Troops and spells : 2 Golem, 8 wall breaker, 17 Wizards, 3 pekka, 100% archer, 3 rage, 1 heal  
       
       |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|                   
-SIDE  |0          |0          |0          |0          |5          |5          |5          |           |
+SIDE  |0          |0          |0          |0          |5          |5          |5          |EAGLE      |
       |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|
 MAKE  |A          |RIGHT-BACK |10         |1          |INT-EXT    |0          |0          |           |vector for Golem and wall breaker right back 
       |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|___________|

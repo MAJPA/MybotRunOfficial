@@ -296,24 +296,24 @@ Func ParseAttackCSV($debug = False)
 					Case "SIDE"
 						ReleaseClicks()
 						Setlog("Calculate main side... ")
-						If StringUpper($value8) = "EAGLE" then 
+						If StringUpper($value8) = "EAGLE" and $PixelEaglePos <> -1 then
 							Switch StringLeft(Slice8($PixelEaglePos), 1)
 								Case 1, 2
-									$MAINSIDEMAINSIDE = "BOTTOM-RIGHT"
+									$MAINSIDE = "BOTTOM-RIGHT"
 								Case 3, 4
-									$MAINSIDEMAINSIDE = "TOP-RIGHT"
+									$MAINSIDE = "TOP-RIGHT"
 								Case 5, 6
-									$MAINSIDEMAINSIDE = "TOP-LEFT"
+									$MAINSIDE = "TOP-LEFT"
 								Case 7, 8
-									$MAINSIDEMAINSIDE = "BOTTOM-LEFT"
-							EndSwitch					
-						Else 
+									$MAINSIDE = "BOTTOM-LEFT"
+							EndSwitch
+						Else
 							If StringUpper($value8) = "TOP-LEFT" Or StringUpper($value8) = "TOP-RIGHT" Or StringUpper($value8) = "BOTTOM-LEFT" Or StringUpper($value8) = "BOTTOM-RIGHT" Then
-								$MAINSIDEMAINSIDE = StringUpper($value8)
+								$MAINSIDE = StringUpper($value8)
 								Setlog("Forced side: " & StringUpper($value8))
 							Else
 								Local $heightTopLeft = 0, $heightTopRight = 0, $heightBottomLeft = 0, $heightBottomRight = 0
-								
+
 								For $i = 0 To UBound($PixelMine) - 1
 									Local $str = ""
 									Local $pixel = $PixelMine[$i]
@@ -445,7 +445,7 @@ Func ParseAttackCSV($debug = False)
 								Setlog("Mainside: " & $sidename & " (top-left:" & $heightTopLeft & " top-right:" & $heightTopRight & " bottom-left:" & $heightBottomLeft & " bottom-right:" & $heightBottomRight)
 								$MAINSIDE = $sidename
 							EndIf
-						EndIf 
+						EndIf
 						Switch $MAINSIDE
 							Case "BOTTOM-RIGHT"
 								$FRONT_LEFT = "BOTTOM-RIGHT-DOWN"
