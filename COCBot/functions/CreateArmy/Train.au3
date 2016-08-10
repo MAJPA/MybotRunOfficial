@@ -17,6 +17,11 @@ Global $LastDarkBarrackTrainDonatedTroop = 1
 
 Func Train()
 
+	; $debugsetlogTrain color standart
+	; $COLOR_PURPLE -> Beginning /ends of the Subfucntions on Train system
+	; $COLOR_GREEN -> Information inside the subfunctions
+	; $COLOR_RED -> Errors
+
 	Local $anotherTroops
 	Local $tempCounter = 0
 	Local $tempElixir = ""
@@ -25,10 +30,13 @@ Func Train()
 	Local $tempDElixirSpent = 0
 	Local $tmpNumber
 
-	If $debugsetlogTrain = 1 Then SetLog("Func Train ", $COLOR_PURPLE)
+	If $debugsetlogTrain = 1 Then  SetLog(_PadStringCenter(" Training Troops & Spells ", 54,"="), $COLOR_BLUE)
+	If $debugsetlogTrain = 0 Then  SetLog("Training Troops & Spells ", $COLOR_BLUE)
+
 	If $bTrainEnabled = False Then Return
 
 	; Read Resource Values For army cost Stats
+	If $debugsetlogTrain = 1 Then SetLog(_PadStringCenter("|Read Resource Values For army cost Stats|", 64,"="), $COLOR_PURPLE)
 	VillageReport(True, True)
 	$tempCounter = 0
 	While ($iElixirCurrent = "" Or ($iDarkCurrent = "" And $iDarkStart <> "")) And $tempCounter < 5
@@ -43,10 +51,11 @@ Func Train()
 	If ($CommandStop = 3 Or $CommandStop = 0) Then
 		CheckOverviewFullArmy(True)
 		If $fullarmy Then
-			If $debugsetlogTrain = 1 Then SetLog("FullArmy & TotalTrained = skip training", $COLOR_PURPLE)
+			If $debugsetlogTrain = 1 Then SetLog("FullArmy & TotalTrained = skip training", $COLOR_GREEN)
 			Return
 		EndIf
 	EndIf
+
 	; #############################################################################################################################################
 	; ###########################################  1st Stage : Prepare training & Variables & Values ##############################################
 	; #############################################################################################################################################
@@ -54,25 +63,36 @@ Func Train()
 	; Reset variables $Cur+TroopName ( used to assign the quantity of troops to train )
 	; Only reset if the FullArmy , Last attacks was a TH Snipes or First Start.
 	; Global $Cur+TroopName = 0
+	If $debugsetlogTrain = 1 Then SetLog(_PadStringCenter("|Beginning of variables reset|", 54,"="), $COLOR_PURPLE)
 
 	If $FirstStart Or $iMatchMode = $TS Then
 		For $i = 0 To UBound($TroopName) - 1
-			If $debugsetlogTrain = 1 Then SetLog("RESET AT 0 " & "Cur" & $TroopName[$i], $COLOR_PURPLE)
+			If Eval("Cur" & $TroopName[$i]) <> 0 then
+				If $debugsetlogTrain = 1 Then SetLog("Reset the variable $Cur" & $TroopName[$i], $COLOR_GREEN)
+			EndIf
 			Assign("Cur" & $TroopName[$i], 0)
 		Next
 
 		For $i = 0 To UBound($TroopDarkName) - 1
-			If $debugsetlogTrain = 1 Then SetLog("RESET AT 0 " & "Cur" & $TroopDarkName[$i], $COLOR_PURPLE)
+			If Eval("Cur" & $TroopDarkName[$i]) <> 0 then
+				If $debugsetlogTrain = 1 Then SetLog("Reset the variable $Cur" & $TroopDarkName[$i], $COLOR_GREEN)
+			EndIf
 			Assign("Cur" & $TroopDarkName[$i], 0)
 		Next
 	EndIf
 
 	For $i = 0 To UBound($TroopName) - 1
+		If Eval("tooMany" & $TroopName[$i]) <> 0 or Eval("tooFew" & $TroopName[$i]) <> 0 then
+			If $debugsetlogTrain = 1 Then SetLog("Reset the variable $tooMany/tooFew" & $TroopName[$i], $COLOR_GREEN)
+		EndIf
 		Assign(("tooMany" & $TroopName[$i]), 0)
 		Assign(("tooFew" & $TroopName[$i]), 0)
 	Next
 
 	For $i = 0 To UBound($TroopDarkName) - 1
+		If Eval("tooMany" & $TroopDarkName[$i]) <> 0 or Eval("tooFew" & $TroopDarkName[$i]) <> 0 then
+			If $debugsetlogTrain = 1 Then SetLog("Reset the variable $tooMany/tooFew" & $TroopDarkName[$i], $COLOR_GREEN)
+		EndIf
 		Assign(("tooMany" & $TroopDarkName[$i]), 0)
 		Assign(("tooFew" & $TroopDarkName[$i]), 0)
 	Next
@@ -81,6 +101,7 @@ Func Train()
 
 	If $FirstStart And $icmbTroopComp <> 8 Then
 		$ArmyComp = $CurCamp
+		If $debugsetlogTrain = 1 Then SetLog("$ArmyComp = $CurCamp", $COLOR_GREEN)
 	EndIf
 
 	; Is necessary Check Total Army Camp and existent troops inside of ArmyCamp
@@ -91,11 +112,12 @@ Func Train()
 	; $numBarracksAvaiables returns to be used as the divisor to assign the amount of kind troops each barracks | $TroopName+EBarrack
 	;
 
-	SetLog("Training Troops & Spells", $COLOR_BLUE)
+
 	If _Sleep($iDelayTrain1) Then Return
 	ClickP($aAway, 1, 0, "#0268") ;Click Away to clear open windows in case user interupted
 	If _Sleep($iDelayTrain4) Then Return
 
+	If $debugsetlogTrain = 1 Then SetLog(_PadStringCenter("|Open/Check ArmyOverView Window|", 54,"="), $COLOR_PURPLE)
 	;OPEN ARMY OVERVIEW WITH NEW BUTTON
 	; WaitforPixel($iLeft, $iTop, $iRight, $iBottom, $firstColor, $iColorVariation, $maxDelay = 10)
 	If WaitforPixel(28, 505 + $bottomOffsetY, 30, 507 + $bottomOffsetY, Hex(0xE4A438, 6), 5, 10) Then
@@ -112,7 +134,10 @@ Func Train()
 	;Wait for the armyoverview Window
 	If WaitforPixel(762, 328 + $midOffsetY, 763, 329 + $midOffsetY, Hex(0xF18439, 6), 10, 10) Then
 		If $debugsetlogTrain = 1 Then SetLog("Wait for ArmyOverView Window", $COLOR_GREEN)
-		If IsTrainPage() Then checkArmyCamp()
+		If IsTrainPage() Then
+			If $debugsetlogTrain = 1 Then SetLog("checkArmyCamp function", $COLOR_GREEN)
+			checkArmyCamp()
+		EndIf
 	EndIf
 
 	If _Sleep($iDelayRunBot6) Then Return ; wait for window to open
@@ -123,6 +148,8 @@ Func Train()
 	; CHECK IF NEED TO MAKE TROOPS
 	; Verify the Global variable $TroopName+Comp and return the GUI selected troops by user
 	;
+	If $debugsetlogTrain = 1 Then SetLog(_PadStringCenter("|Check if need to make troops|", 54,"="), $COLOR_PURPLE)
+
 	If $isNormalBuild = "" Or $FirstStart Then
 		For $i = 0 To UBound($TroopName) - 1
 			If Eval($TroopName[$i] & "Comp") <> "0" Then
@@ -133,7 +160,7 @@ Func Train()
 	If $isNormalBuild = "" Then
 		$isNormalBuild = False
 	EndIf
-	If $debugsetlogTrain = 1 Then SetLog("Train: need to make normal troops: " & $isNormalBuild, $COLOR_PURPLE)
+	If $debugsetlogTrain = 1 Then SetLog("Need to make normal troops: " & $isNormalBuild, $COLOR_GREEN)
 
 	; CHECK IF NEED TO MAKE DARK TROOPS
 	; Verify the Global variable $TroopDarkName+Comp and return the GUI selected troops by user
@@ -148,7 +175,9 @@ Func Train()
 	If $isDarkBuild = "" Or $icmbDarkTroopComp = 2 Then
 		$isDarkBuild = False
 	EndIf
-	If $debugsetlogTrain = 1 Then SetLog("Train: need to make dark troops: " & $isDarkBuild, $COLOR_PURPLE)
+	If $debugsetlogTrain = 1 Then SetLog("Need to make dark troops: " & $isDarkBuild, $COLOR_GREEN)
+
+	If $debugsetlogTrain = 1 Then SetLog(_PadStringCenter("|Go To First Normal Barrack|", 54,"="), $COLOR_PURPLE)
 
 	; GO TO First NORMAL BARRACK
 	; Find First barrack $i
@@ -159,40 +188,45 @@ Func Train()
 	WEnd
 
 	If $Firstbarrack = 0 Then
-		Setlog("No barrack avaiable, cannot start train")
+		Setlog("No barrack avaiable, cannot start training troops")
 		Return ;exit from train
 	Else
-		If $debugsetlogTrain = 1 Then Setlog("First BARRACK = " & $Firstbarrack, $COLOR_PURPLE)
+		If $debugsetlogTrain = 1 Then Setlog("First Barrack = " & $Firstbarrack, $COLOR_GREEN)
 		;GO TO First BARRACK
 		Local $j = 0
-		While Not _ColorCheck(_GetPixelColor($btnpos[0][0], $btnpos[0][1], True), Hex(0xE8E8E0, 6), 20)
-			If $debugsetlogTrain = 1 Then Setlog("OverView TabColor=" & _GetPixelColor($btnpos[0][0], $btnpos[0][1], True), $COLOR_PURPLE)
+		While Not _ColorCheck(_GetPixelColor($btnpos[0][0], $btnpos[0][1], True), Hex(0xE8E8E0, 6), 20) ; ; 0x888070
+			If $debugsetlogTrain = 1 Then Setlog("OverView TabColor|$btnpos[0]| : " & _GetPixelColor($btnpos[0][0], $btnpos[0][1], True), $COLOR_GREEN)
 			If _Sleep($iDelayTrain1) Then Return ; wait for Train Window to be ready.
 			$j += 1
 			If $j > 15 Then ExitLoop
 		WEnd
 		If $j > 15 Then
-			SetLog("Training Overview Window didn't open", $COLOR_RED)
+			SetLog("Training Overview Window DIDN'T OPEN", $COLOR_RED)
 			Return
 		EndIf
 		If Not (IsTrainPage()) Then Return ;exit if no train page
 		Click($btnpos[$Firstbarrack][0], $btnpos[$Firstbarrack][1], 1, $iDelayTrain5, "#0336") ; Click on tab and go to last barrack
 		Local $j = 0
-		While Not _ColorCheck(_GetPixelColor($btnpos[$Firstbarrack][0], $btnpos[$Firstbarrack][1], True), Hex(0xE8E8E0, 6), 20)
-			If $debugsetlogTrain = 1 Then Setlog("First Barrack TabColor=" & _GetPixelColor($btnpos[$Firstbarrack][0], $btnpos[$Firstbarrack][1], True), $COLOR_PURPLE)
+		While Not _ColorCheck(_GetPixelColor($btnpos[$Firstbarrack][0], $btnpos[$Firstbarrack][1], True), Hex(0xE8E8E0, 6), 20) ; 0x888070
+			If $debugsetlogTrain = 1 Then Setlog("First Barrack TabColor|$btnpos[" & $Firstbarrack & "]: " & _GetPixelColor($btnpos[$Firstbarrack][0], $btnpos[$Firstbarrack][1], True), $COLOR_GREEN)
 			If _Sleep($iDelayTrain1) Then Return
 			$j += 1
 			If $j > 15 Then ExitLoop
 		WEnd
 		If $j > 15 Then
-			SetLog("some error occurred, cannot open barrack", $COLOR_RED)
+			SetLog("Some error occurred, CANNOT OPEN Barracks", $COLOR_RED)
 		EndIf
 	EndIf
+
+	If $debugsetlogTrain = 1 Then SetLog(_PadStringCenter("|Variables Barracks status and camps|", 54,"="), $COLOR_PURPLE)
 
 	; PREPARE TROOPS IF FULL ARMY
 	; Baracks status to false , after the first loop and train Selected Troops composition = True
 	;
-	If $debugsetlogTrain = 1 Then Setlog("Fullarmy = " & $fullarmy & " CurCamp = " & $CurCamp & " TotalCamp = " & $TotalCamp & " - result = " & ($fullarmy = True And $CurCamp = $TotalCamp), $COLOR_PURPLE)
+	If $debugsetlogTrain = 1 Then Setlog(">Fullarmy = " & $fullarmy, $COLOR_GREEN)
+	If $debugsetlogTrain = 1 Then Setlog(">CurCamp = " & $CurCamp, $COLOR_GREEN)
+	If $debugsetlogTrain = 1 Then Setlog(">TotalCamp = " & $TotalCamp & " - result = " & ($fullarmy = True And $CurCamp = $TotalCamp), $COLOR_GREEN)
+
 	If $fullarmy = True Then
 		$BarrackStatus[0] = False
 		$BarrackStatus[1] = False
@@ -200,7 +234,7 @@ Func Train()
 		$BarrackStatus[3] = False
 		$BarrackDarkStatus[0] = False
 		$BarrackDarkStatus[1] = False
-		SetLog("Your Army Camps are now Full", $COLOR_RED)
+		SetLog("Your Army Camps are now Full", $COLOR_GREEN) ;------------------------------------------------> MAJPA
 		If ($PushBulletEnabled = 1 And $ichkAlertPBCampFull = 1) Then PushMsg("CampFull")
 	EndIf
 
