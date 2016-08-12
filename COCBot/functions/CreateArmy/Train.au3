@@ -28,7 +28,7 @@ Func Train()
 	Local $tempDElixir = ""
 	Local $tempElixirSpent = 0
 	Local $tempDElixirSpent = 0
-	Local $tmpNumber
+	Local $tmpNumber = 0
 
 	If $debugsetlogTrain = 1 Then  SetLog(_PadStringCenter(" Training Troops & Spells ", 54,"="), $COLOR_BLUE)
 	If $debugsetlogTrain = 0 Then  SetLog("Training Troops & Spells ", $COLOR_BLUE)
@@ -90,13 +90,6 @@ Func Train()
 		Assign(("tooMany" & $TroopDarkName[$i]), 0)
 		Assign(("tooFew" & $TroopDarkName[$i]), 0)
 	Next
-
-	;If $FirstStart And $OptTrophyMode = 1 And $icmbTroopComp <> 8 Then
-
-	If $FirstStart And $icmbTroopComp <> 8 Then
-		$ArmyComp = $CurCamp
-		If $debugsetlogTrain = 1 Then SetLog("$ArmyComp = $CurCamp", $COLOR_GREEN)
-	EndIf
 
 	; Is necessary Check Total Army Camp and existent troops inside of ArmyCamp
 	; $icmbTroopComp - variable used to differentiate the Troops Composition selected in GUI
@@ -584,6 +577,7 @@ Func Train()
 				If $debugsetlogTrain = 1 And $icount = 100 Then SetLog("Train warning 7", $COLOR_PURPLE)
 			EndIf
 
+			;	Fill the variable 'troopFirst' (assigned by OCR| existent troops when bot enter on barrack )
 			If _Sleep($iDelayTrain1) Then Return
 			For $i = 0 To UBound($TroopName) - 1
 				If Eval($TroopName[$i] & "Comp") <> "0" Then
@@ -593,6 +587,7 @@ Func Train()
 						$heightTroop = 396 + $midOffsetY
 						$positionTroop = $TroopNamePosition[$i] - 6
 					EndIf
+					$tmpNumber = 0
 					$tmpNumber = Number(getBarracksTroopQuantity(126 + 102 * $positionTroop, $heightTroop))
 					If $debugsetlogTrain = 1 And $tmpNumber <> 0 Then SetLog("ASSIGN TroopFirst." & $TroopName[$i] & ": " & $tmpNumber, $COLOR_PURPLE)
 					Assign(("troopFirst" & $TroopName[$i]), $tmpNumber)
@@ -605,7 +600,7 @@ Func Train()
 				If $RunState = False Then Return
 			Next
 
-			;Too few troops, train first
+			;	Too few troops, trainIT first
 			For $i = 0 To UBound($TroopName) - 1
 				If Eval("tooFew" & $TroopName[$i]) = 1 Then
 					If Not (IsTrainPage()) Then Return ;exit from train
@@ -625,7 +620,8 @@ Func Train()
 				EndIf
 				If $RunState = False Then Return
 			Next
-			;Balanced troops train in normal order
+
+			;	Balanced troops trainIT in normal order
 			For $i = 0 To UBound($TroopName) - 1
 				If Eval($TroopName[$i] & "Comp") <> 0 And Eval("Cur" & $TroopName[$i]) > 0 Then
 					If Not (IsTrainPage()) Then Return ;exit from train
@@ -646,7 +642,8 @@ Func Train()
 				EndIf
 				If $RunState = False Then Return
 			Next
-			;Too Many troops, train Last
+
+			;	Too Many troops, trainIT Last
 			For $i = 0 To UBound($TroopName) - 1 ; put troops at end of queue if there are too many
 				If Eval("tooMany" & $TroopName[$i]) = 1 Then
 					If Not (IsTrainPage()) Then Return ;exit from train
@@ -667,6 +664,7 @@ Func Train()
 				If $RunState = False Then Return
 			Next
 
+			;	Fill the variable 'troopSecond' (assigned by OCR |existent troops when the bot left the barrack)
 			If _Sleep($iDelayTrain1) Then Return
 			For $i = 0 To UBound($TroopName) - 1
 				If Eval($TroopName[$i] & "Comp") <> "0" Then
@@ -676,6 +674,7 @@ Func Train()
 						$heightTroop = 396 + $midOffsetY
 						$positionTroop = $TroopNamePosition[$i] - 6
 					EndIf
+					$tmpNumber = 0
 					$tmpNumber = Number(getBarracksTroopQuantity(126 + 102 * $positionTroop, $heightTroop))
 					If $debugsetlogTrain = 1 And $tmpNumber <> 0 Then SetLog(("troopSecond" & $TroopName[$i] & ": " & $tmpNumber), $COLOR_PURPLE)
 					Assign(("troopSecond" & $TroopName[$i]), $tmpNumber)
@@ -688,15 +687,14 @@ Func Train()
 				If $RunState = False Then Return
 			Next
 
-			$troopNameCooking = ""
+			; 	Maths to reduce the $Cur Troops made on each Barrack , verifying The troopFirst(assigned by OCR| existent troops when bot enter on barrack ) and troopSecond(assigned by OCR |existent troops when the bot left the barrack)
+			;   This is a very good way to check if the Troops to train are really in barrack , if there wasn't an error on TrainIT | Click Train
 			For $i = 0 To UBound($TroopName) - 1
 				If Eval("troopSecond" & $TroopName[$i]) > Eval("troopFirst" & $TroopName[$i]) And Eval($TroopName[$i] & "Comp") <> "0" Then
 					$ArmyComp += (Eval("troopSecond" & $TroopName[$i]) - Eval("troopFirst" & $TroopName[$i])) * $TroopHeight[$i]
 					If $debugsetlogTrain = 1 Then SetLog(("###Cur" & $TroopName[$i]) & " = " & Eval("Cur" & $TroopName[$i]) & " - (" & Eval("troopSecond" & $TroopName[$i]) & " - " & Eval("troopFirst" & $TroopName[$i]) & ")", $COLOR_PURPLE)
-					Assign(("Cur" & $TroopName[$i]), Eval("Cur" & $TroopName[$i]) - (Eval("troopSecond" & $TroopName[$i]) - Eval("troopFirst" & $TroopName[$i])))
-				EndIf
-				If Eval("troopSecond" & $TroopName[$i]) > 0 Then
-					$troopNameCooking = $troopNameCooking & $i & ";"
+					Local $MathCurCorrectly = Eval("Cur" & $TroopName[$i]) - (Eval("troopSecond" & $TroopName[$i]) - Eval("troopFirst" & $TroopName[$i]))
+					Assign(("Cur" & $TroopName[$i]), $MathCurCorrectly )
 				EndIf
 				If $RunState = False Then Return
 			Next
