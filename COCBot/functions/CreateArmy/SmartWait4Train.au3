@@ -31,6 +31,9 @@ Func SmartWait4Train()
 		EndIf
 	WEnd
 
+	$ichkCloseWaitSpell= 0
+	$ichkCloseWaitHero = 0
+
 	Local $aResult, $iActiveHero
 	Local $aHeroResult[3]
 	Local Const $TRAINWAIT_NOWAIT = 0x00 ; default no waiting
@@ -108,6 +111,7 @@ Func SmartWait4Train()
 			If _Sleep($iDelayRespond) Then Return
 		EndIf
 		If $aTimeTrain[1] > 0 Then
+			$ichkCloseWaitSpell= 1
 			If $ibtnCloseWaitRandom = 1 Then
 				$aTimeTrain[1] += $aTimeTrain[1] * $RandomAddPercent ; add some random percent
 			EndIf
@@ -119,6 +123,7 @@ Func SmartWait4Train()
 	; get hero regen time remaining if enabled
 	If ($ichkCloseWaitTrain = 1 Or BitAND($iTrainWaitCloseFlag, $TRAINWAIT_SHIELD) = $TRAINWAIT_SHIELD) And IsWaitforHeroesActive() Then
 		If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("$ichkCloseWaitHero enabled", $COLOR_PURPLE)
+		$ichkCloseWaitHero = 1
 		If $aTimeTrain[2] = 0 Then ; did we already read remaining time?
 			For $j = 0 To UBound($aResult) - 1
 				$aHeroResult[$j] = 0 ; reset old values
@@ -165,6 +170,7 @@ Func SmartWait4Train()
 		If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("$iTrainWaitCloseFlag:" & $iTrainWaitCloseFlag & ", hero time= " & StringFormat("%.2f", $aTimeTrain[2]), $COLOR_PURPLE)
 	Else
 		$aTimeTrain[2] = 0 ; clear hero remain time if disabled during stop
+		$ichkCloseWaitHero = 0
 	EndIf
 
 	; update CC remaining time till next request if request made and CC not full

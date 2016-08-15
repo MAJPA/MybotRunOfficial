@@ -6,6 +6,9 @@
 #pragma compile(FileVersion, 6.2.1)
 #pragma compile(LegalCopyright, © https://mybot.run)
 #pragma compile(Out, MyBot.run.exe)  ; Required
+#AutoIt3Wrapper_UseX64=7n
+#AutoIt3Wrapper_Run_Au3Stripper=y
+#Au3Stripper_Parameters=/mo /rsln
 Global Const $WC_ANIMATE = 'SysAnimate32'
 Global Const $WC_BUTTON = 'Button'
 Global Const $WC_COMBOBOX = 'ComboBox'
@@ -7701,10 +7704,15 @@ Global Const $COINIT_APARTMENTTHREADED = 0x02
 Global Const $COINIT_DISABLE_OLE1DDE = 0x04
 Global Const $COINIT_MULTITHREADED = 0x00
 Global Const $COINIT_SPEED_OVER_MEMORY = 0x08
+#Region Global Variables and Constants
 Global $__g_vEnum, $__g_vExt = 0
 Global $__g_hHeap = 0, $__g_iRGBMode = 1
 Global Const $tagOSVERSIONINFO = 'struct;dword OSVersionInfoSize;dword MajorVersion;dword MinorVersion;dword BuildNumber;dword PlatformId;wchar CSDVersion[128];endstruct'
 Global Const $__WINVER = __WINVER()
+#EndRegion Global Variables and Constants
+#Region Functions list
+#EndRegion Functions list
+#Region Public Functions
 Func _WinAPI_ArrayToStruct(Const ByRef $aData, $iStart = 0, $iEnd = -1)
 If __CheckErrorArrayBounds($aData, $iStart, $iEnd) Then Return SetError(@error + 10, @extended, 0)
 Local $tagStruct = ''
@@ -7874,6 +7882,8 @@ DllCall('ntdll.dll', 'none', 'RtlZeroMemory', 'struct*', $pMemory, 'ulong_ptr', 
 If @error Then Return SetError(@error, @extended, 0)
 Return 1
 EndFunc
+#EndRegion Public Functions
+#Region Internal Functions
 Func __CheckErrorArrayBounds(Const ByRef $aData, ByRef $iStart, ByRef $iEnd, $nDim = 1, $iDim = $UBOUND_DIMENSIONS)
 If Not IsArray($aData) Then Return SetError(1, 0, 1)
 If UBound($aData, $iDim) <> $nDim Then Return SetError(2, 0, 1)
@@ -8015,7 +8025,13 @@ Local $aRet = DllCall('kernel32.dll', 'bool', 'GetVersionExW', 'struct*', $tOSVI
 If @error Or Not $aRet[0] Then Return SetError(@error, @extended, 0)
 Return BitOR(BitShift(DllStructGetData($tOSVI, 2), -8), DllStructGetData($tOSVI, 3))
 EndFunc
+#EndRegion Internal Functions
+#Region Global Variables and Constants
 Global Const $__tagWinAPICom_GUID = "struct;ulong Data1;ushort Data2;ushort Data3;byte Data4[8];endstruct"
+#EndRegion Global Variables and Constants
+#Region Functions list
+#EndRegion Functions list
+#Region Public Functions
 Func _WinAPI_CLSIDFromProgID($sProgID)
 Local $tGUID = DllStructCreate($__tagWinAPICom_GUID)
 Local $aReturn = DllCall('ole32.dll', 'long', 'CLSIDFromProgID', 'wstr', $sProgID, 'struct*', $tGUID)
@@ -8089,6 +8105,7 @@ If @error Then Return SetError(@error, @extended, 0)
 If $aReturn[0] Then Return SetError(10, $aReturn[0], 0)
 Return 1
 EndFunc
+#EndRegion Public Functions
 Global Const $URL_SCHEME_INVALID = -1
 Global Const $URL_SCHEME_UNKNOWN = 0
 Global Const $URL_SCHEME_FTP = 1
@@ -8147,6 +8164,9 @@ Global Const $URLIS_HASQUERY = 6
 Global Const $URLIS_NOHISTORY = 2
 Global Const $URLIS_OPAQUE = 1
 Global Const $URLIS_URL = 0
+#Region Functions list
+#EndRegion Functions list
+#Region Public Functions
 Func _WinAPI_CommandLineToArgv($sCmd)
 Local $aResult[1] = [0]
 $sCmd = StringStripWS($sCmd, $STR_STRIPLEADING + $STR_STRIPTRAILING)
@@ -8542,6 +8562,8 @@ Local $aRet = DllCall('shlwapi.dll', 'bool', 'UrlIsW', 'wstr', $sUrl, 'uint', $i
 If @error Then Return SetError(@error, @extended, False)
 Return $aRet[0]
 EndFunc
+#EndRegion Public Functions
+#Region Internal Functions
 Func __US($sString, $iLength = 0)
 If $iLength Then
 $sString = StringLeft($sString, $iLength)
@@ -8555,6 +8577,8 @@ DllStructSetData($tUS, 3, DllStructGetPtr($tUS, 4))
 DllStructSetData($tUS, 4, $sString)
 Return $tUS
 EndFunc
+#EndRegion Internal Functions
+#Region Global Variables and Constants
 Global Const $tagIO_COUNTERS = 'struct;uint64 ReadOperationCount;uint64 WriteOperationCount;uint64 OtherOperationCount;uint64 ReadTransferCount;uint64 WriteTransferCount;uint64 OtherTransferCount;endstruct'
 Global Const $tagJOBOBJECT_ASSOCIATE_COMPLETION_PORT = 'ulong_ptr CompletionKey;ptr CompletionPort'
 Global Const $tagJOBOBJECT_BASIC_ACCOUNTING_INFORMATION = 'struct;int64 TotalUserTime;int64 TotalKernelTime;int64 ThisPeriodTotalUserTime;int64 ThisPeriodTotalKernelTime;dword TotalPageFaultCount;dword TotalProcesses;dword ActiveProcesses;dword TotalTerminatedProcesses;endstruct'
@@ -8568,6 +8592,10 @@ Global Const $tagJOBOBJECT_GROUP_INFORMATION = ''
 Global Const $tagJOBOBJECT_SECURITY_LIMIT_INFORMATION = 'dword SecurityLimitFlags;ptr JobToken;ptr SidsToDisable;ptr PrivilegesToDelete;ptr RestrictedSids'
 Global Const $tagMODULEINFO = 'ptr BaseOfDll;dword SizeOfImage;ptr EntryPoint'
 Global Const $tagPROCESSENTRY32 = 'dword Size;dword Usage;dword ProcessID;ulong_ptr DefaultHeapID;dword ModuleID;dword Threads;dword ParentProcessID;long PriClassBase;dword Flags;wchar ExeFile[260]'
+#EndRegion Global Variables and Constants
+#Region Functions list
+#EndRegion Functions list
+#Region Public Functions
 Func _WinAPI_AdjustTokenPrivileges($hToken, $aPrivileges, $iAttributes, ByRef $aAdjust)
 $aAdjust = 0
 If Not $aPrivileges And IsNumber($aPrivileges) Then Return 0
@@ -9248,6 +9276,7 @@ Local $aRet = DllCall('kernel32.dll', 'bool', 'UserHandleGrantAccess', 'handle',
 If @error Then Return SetError(@error, @extended, False)
 Return $aRet[0]
 EndFunc
+#EndRegion Public Functions
 Global Const $GDIP_DASHCAPFLAT = 0
 Global Const $GDIP_DASHCAPROUND = 2
 Global Const $GDIP_DASHCAPTRIANGLE = 3
@@ -9954,6 +9983,7 @@ Global Const $PT_BEZIERTO = 4
 Global Const $PT_LINETO = 2
 Global Const $PT_MOVETO = 6
 Global Const $PT_CLOSEFIGURE = 1
+#Region Global Variables and Constants
 Global Const $tagBITMAP = 'struct;long bmType;long bmWidth;long bmHeight;long bmWidthBytes;ushort bmPlanes;ushort bmBitsPixel;ptr bmBits;endstruct'
 Global Const $tagBITMAPV4HEADER = 'struct;dword bV4Size;long bV4Width;long bV4Height;ushort bV4Planes;ushort bV4BitCount;dword bV4Compression;dword bV4SizeImage;long bV4XPelsPerMeter;long bV4YPelsPerMeter;dword bV4ClrUsed;dword bV4ClrImportant;dword bV4RedMask;dword bV4GreenMask;dword bV4BlueMask;dword bV4AlphaMask;dword bV4CSType;int bV4Endpoints[9];dword bV4GammaRed;dword bV4GammaGreen;dword bV4GammaBlue;endstruct'
 Global Const $tagBITMAPV5HEADER = 'struct;dword bV5Size;long bV5Width;long bV5Height;ushort bV5Planes;ushort bV5BitCount;dword bV5Compression;dword bV5SizeImage;long bV5XPelsPerMeter;long bV5YPelsPerMeter;dword bV5ClrUsed;dword bV5ClrImportant;dword bV5RedMask;dword bV5GreenMask;dword bV5BlueMask;dword bV5AlphaMask;dword bV5CSType;int bV5Endpoints[9];dword bV5GammaRed;dword bV5GammaGreen;dword bV5GammaBlue;dword bV5Intent;dword bV5ProfileData;dword bV5ProfileSize;dword bV5Reserved;endstruct'
@@ -9975,6 +10005,10 @@ Global Const $tagOUTLINETEXTMETRIC = 'struct;uint otmSize;' & $tagTEXTMETRIC & '
 Global Const $tagPAINTSTRUCT = 'hwnd hDC;int fErase;dword rPaint[4];int fRestore;int fIncUpdate;byte rgbReserved[32]'
 Global Const $tagRGNDATAHEADER = 'struct;dword Size;dword Type;dword Count;dword RgnSize;' & $tagRECT & ';endstruct'
 Global Const $tagXFORM = 'float eM11;float eM12;float eM21;float eM22;float eDx;float eDy'
+#EndRegion Global Variables and Constants
+#Region Functions list
+#EndRegion Functions list
+#Region Public Functions
 Func _WinAPI_AbortPath($hDC)
 Local $aRet = DllCall('gdi32.dll', 'bool', 'AbortPath', 'handle', $hDC)
 If @error Then Return SetError(@error, @extended, False)
@@ -12569,6 +12603,8 @@ Local $aRet = DllCall('user32.dll', 'hwnd', 'WindowFromDC', 'handle', $hDC)
 If @error Then Return SetError(@error, @extended, 0)
 Return $aRet[0]
 EndFunc
+#EndRegion Public Functions
+#Region Embedded DLL Functions
 Func __AlphaProc()
 Static $pProc = 0
 If Not $pProc Then
@@ -12602,6 +12638,8 @@ EndIf
 EndIf
 Return $pProc
 EndFunc
+#EndRegion Embedded DLL Functions
+#Region Internal Functions
 Func __EnumDisplayMonitorsProc($hMonitor, $hDC, $pRECT, $lParam)
 #forceref $hDC, $lParam
 __Inc($__g_vEnum)
@@ -12660,6 +12698,7 @@ Else
 Return 1
 EndIf
 EndFunc
+#EndRegion Internal Functions
 Global $__g_hGDIPBrush = 0
 Global $__g_hGDIPDll = 0
 Global $__g_hGDIPPen = 0
@@ -17768,7 +17807,12 @@ Global Const $TIME_NOSECONDS = 0x02
 Global Const $TIME_NOTIMEMARKER = 0x04
 Global Const $LCID_INSTALLED = 1
 Global Const $LCID_SUPPORTED = 2
+#Region Global Variables and Constants
 Global Const $tagNUMBERFMT = 'uint NumDigits;uint LeadingZero;uint Grouping;ptr DecimalSep;ptr ThousandSep;uint NegativeOrder'
+#EndRegion Global Variables and Constants
+#Region Functions list
+#EndRegion Functions list
+#Region Public Functions
 Func _WinAPI_CompareString($iLCID, $sString1, $sString2, $iFlags = 0)
 Local $aRet = DllCall('kernel32.dll', 'int', 'CompareStringW', 'dword', $iLCID, 'dword', $iFlags, 'wstr', $sString1,  'int', -1, 'wstr', $sString2, 'int', -1)
 If @error Or Not $aRet[0] Then Return SetError(@error, @extended, 0)
@@ -17957,6 +18001,8 @@ Local $aRet = DllCall('kernel32.dll', 'bool', 'SetUserGeoID', 'long', $iGEOID)
 If @error Then Return SetError(@error, @extended, False)
 Return $aRet[0]
 EndFunc
+#EndRegion Public Functions
+#Region Internal Functions
 Func __EnumGeoIDProc($iID)
 __Inc($__g_vEnum)
 $__g_vEnum[$__g_vEnum[0]] = $iID
@@ -17975,6 +18021,7 @@ $__g_vEnum[$__g_vEnum[0]] = Dec($__g_vEnum[$__g_vEnum[0]])
 EndIf
 Return 1
 EndFunc
+#EndRegion Internal Functions
 Func _DateAdd($sType, $iNumber, $sDate)
 Local $asTimePart[4]
 Local $asDatePart[4]
@@ -23812,13 +23859,20 @@ EndFunc
 Func _StringToHex($sString)
 Return Hex(StringToBinary($sString, $SB_UTF8))
 EndFunc
+#Region Header
+#EndRegion Header
+#Region Global Variables
 Global $__g_iIELoadWaitTimeout = 300000
 Global $__g_bIEAU3Debug = False
 Global $__g_bIEErrorNotify = True
 Global $__g_oIEErrorHandler, $__g_sIEUserErrorHandler
+#EndRegion Global Variables
+#Region Global Constants
 Global Const $__gaIEAU3VersionInfo[6] = ["T", 3, 0, 2, "20140819", "T3.0-2"]
 Global Const $LSFW_LOCK = 1, $LSFW_UNLOCK = 2
 Global Enum  $_IESTATUS_Success = 0,  $_IESTATUS_GeneralError,  $_IESTATUS_ComError,  $_IESTATUS_InvalidDataType,  $_IESTATUS_InvalidObjectType,  $_IESTATUS_InvalidValue,  $_IESTATUS_LoadWaitTimeout,  $_IESTATUS_NoMatch,  $_IESTATUS_AccessIsDenied,  $_IESTATUS_ClientDisconnected
+#EndRegion Global Constants
+#Region Core functions
 Func _IECreate($sUrl = "about:blank", $iTryAttach = 0, $iVisible = 1, $iWait = 1, $iTakeFocus = 1)
 If Not $iVisible Then $iTakeFocus = 0
 If $iTryAttach Then
@@ -24160,6 +24214,8 @@ $__g_iIELoadWaitTimeout = $iTimeout
 Return SetError($_IESTATUS_Success, 0, 1)
 EndIf
 EndFunc
+#EndRegion Core functions
+#Region Frame Functions
 Func _IEIsFrameSet(ByRef $oObject)
 If Not IsObj($oObject) Then
 __IEConsoleWriteError("Error", "_IEIsFrameSet", "$_IESTATUS_InvalidDataType")
@@ -24225,6 +24281,8 @@ __IEConsoleWriteError("Warning", "_IEFrameGetObjByName", "$_IESTATUS_NoMatch", "
 Return SetError($_IESTATUS_NoMatch, 2, 0)
 EndIf
 EndFunc
+#EndRegion Frame Functions
+#Region Link functions
 Func _IELinkClickByText(ByRef $oObject, $sLinkText, $iIndex = 0, $iWait = 1)
 If Not IsObj($oObject) Then
 __IEConsoleWriteError("Error", "_IELinkClickByText", "$_IESTATUS_InvalidDataType")
@@ -24296,6 +24354,8 @@ __IEConsoleWriteError("Warning", "_IELinkGetCollection", "$_IESTATUS_NoMatch")
 Return SetError($_IESTATUS_NoMatch, 2, 0)
 EndSelect
 EndFunc
+#EndRegion Link functions
+#Region Image functions
 Func _IEImgClick(ByRef $oObject, $sLinkText, $sMode = "src", $iIndex = 0, $iWait = 1)
 If Not IsObj($oObject) Then
 __IEConsoleWriteError("Error", "_IEImgClick", "$_IESTATUS_InvalidDataType")
@@ -24358,6 +24418,8 @@ __IEConsoleWriteError("Warning", "_IEImgGetCollection", "$_IESTATUS_NoMatch")
 Return SetError($_IESTATUS_NoMatch, 1, 0)
 EndSelect
 EndFunc
+#EndRegion Image functions
+#Region Form functions
 Func _IEFormGetCollection(ByRef $oObject, $iIndex = -1)
 If Not IsObj($oObject) Then
 __IEConsoleWriteError("Error", "_IEFormGetCollection", "$_IESTATUS_InvalidDataType")
@@ -24867,6 +24929,8 @@ Return SetError($_IESTATUS_ComError, @error, 0)
 EndIf
 Return SetError($_IESTATUS_Success, 0, 1)
 EndFunc
+#EndRegion Form functions
+#Region Table functions
 Func _IETableGetCollection(ByRef $oObject, $iIndex = -1)
 If Not IsObj($oObject) Then
 __IEConsoleWriteError("Error", "_IETableGetCollection", "$_IESTATUS_InvalidDataType")
@@ -24932,6 +24996,8 @@ $aTableCells = $aTmp
 EndIf
 Return SetError($_IESTATUS_Success, 0, $aTableCells)
 EndFunc
+#EndRegion Table functions
+#Region Read/Write functions
 Func _IEBodyReadHTML(ByRef $oObject)
 If Not IsObj($oObject) Then
 __IEConsoleWriteError("Error", "_IEBodyReadHTML", "$_IESTATUS_InvalidDataType")
@@ -25082,6 +25148,8 @@ Return SetError($_IESTATUS_ComError, @error, 0)
 EndIf
 Return SetError($_IESTATUS_Success, 0, 1)
 EndFunc
+#EndRegion Read/Write functions
+#Region Utility functions
 Func _IEDocGetObj(ByRef $oObject)
 If Not IsObj($oObject) Then
 __IEConsoleWriteError("Error", "_IEDocGetObj", "$_IESTATUS_InvalidDataType")
@@ -25812,6 +25880,8 @@ EndIf
 $oObject = 0
 Return SetError($_IESTATUS_Success, 0, 1)
 EndFunc
+#EndRegion Utility functions
+#Region General
 Func _IE_Introduction($sModule = "basic")
 Local $sHTML = ""
 Switch $sModule
@@ -26177,6 +26247,8 @@ Func _IE_VersionInfo()
 __IEConsoleWriteError("Information", "_IE_VersionInfo", "version " &  $__gaIEAU3VersionInfo[0] &  $__gaIEAU3VersionInfo[1] & "." &  $__gaIEAU3VersionInfo[2] & "-" &  $__gaIEAU3VersionInfo[3], "Release date: " & $__gaIEAU3VersionInfo[4])
 Return SetError($_IESTATUS_Success, 0, $__gaIEAU3VersionInfo)
 EndFunc
+#EndRegion General
+#Region Internal functions
 Func __IELockSetForegroundWindow($iLockCode)
 Local $aRet = DllCall("user32.dll", "bool", "LockSetForegroundWindow", "uint", $iLockCode)
 If @error Or Not $aRet[0] Then Return SetError(1, _WinAPI_GetLastError(), 0)
@@ -26306,6 +26378,8 @@ Case Else
 Return $_IESTATUS_Success
 EndSwitch
 EndFunc
+#EndRegion Internal functions
+#Region ProtoType Functions
 Func __IENavigate(ByRef $oObject, $sUrl, $iWait = 1, $iFags = 0, $sTarget = "", $sPostdata = "", $sHeaders = "")
 __IEConsoleWriteError("Warning", "__IENavigate", "Unsupported function called. Not fully tested.")
 If Not IsObj($oObject) Then
@@ -26404,6 +26478,7 @@ EndIf
 Until Not FileExists($sTempName)
 Return $sTempName
 EndFunc
+#EndRegion ProtoType Functions
 Global Const $HDF_LEFT = 0x00000000
 Global Const $HDF_RIGHT = 0x00000001
 Global Const $HDF_CENTER = 0x00000002
@@ -30920,7 +30995,7 @@ Global $__MEmu_SystemBar = 36
 Global $__MEmu_PhoneLayout = "0"
 Global $__MEmu_Window[3][4] =  [  ["2.6.2",$DEFAULT_WIDTH + 48,$DEFAULT_HEIGHT + 26,40],  ["2.5.0",$DEFAULT_WIDTH + 51,$DEFAULT_HEIGHT + 24,40],  ["2.2.1",$DEFAULT_WIDTH + 51,$DEFAULT_HEIGHT + 24,45]  ]
 Global $__Droid4X_Window[3][3] =  [  ["0.10.0",$DEFAULT_WIDTH +  6,$DEFAULT_HEIGHT + 53],  ["0.8.6" ,$DEFAULT_WIDTH + 10,$DEFAULT_HEIGHT + 50]  ]
-Global $AndroidAppConfig[5][14] = [  ["MEmu",       "MEmu",          "MEmu 2.",              "[CLASS:subWin; INSTANCE:1]",       "",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 12,$DEFAULT_WIDTH + 51,$DEFAULT_HEIGHT + 24,0,             "127.0.0.1:21503",0+2+4+8+16+32+64      ,'# ',               'Microvirt Virtual Input'],  ["Droid4X",    "droid4x",       "Droid4X 0.",           "[CLASS:subWin; INSTANCE:1]",       "",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH + 10,$DEFAULT_HEIGHT + 50,0,             "127.0.0.1:26944",0+2+4+8+16+32+64      ,'# ',               'droid4x Virtual Input'],  ["Nox",        "nox",           "No",                   "[CLASS:Qt5QWindowIcon;INSTANCE:4]","",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH +  4,$DEFAULT_HEIGHT - 10,0,             "127.0.0.1:62001",0+2+4+8+16+32         ,'# ',               'nox Virtual Input'],  ["BlueStacks2","",              "BlueStacks ",          "[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,0,             "emulator-5554",  1    +8+16   +64      ,'$ ',               'BlueStacks Virtual Touch'],  ["BlueStacks", "",              "BlueStacks App Player","[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,0,             "emulator-5554",  1    +8+16   +64      ,'$ ',               'BlueStacks Virtual Touch']  ]
+Global $AndroidAppConfig[5][14] = [  ["MEmu",       "MEmu",          "MEmu 2.",              "[CLASS:subWin; INSTANCE:1]",       "",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 12,$DEFAULT_WIDTH + 51,$DEFAULT_HEIGHT + 24,0,             "127.0.0.1:21503",0+2+4+8+16+32+64      ,'# ',               'Microvirt Virtual Input'],  ["Droid4X",    "droid4x",       "Droid4X 0.",           "[CLASS:subWin; INSTANCE:1]",       "",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH + 10,$DEFAULT_HEIGHT + 50,0,             "127.0.0.1:26944",0+2+4+8+16+32+64      ,'# ',               'droid4x Virtual Input'],  ["Nox",        "nox",           "No",                   "[CLASS:Qt5QWindowIcon;INSTANCE:4]","",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH +  4,$DEFAULT_HEIGHT - 10,0,             "127.0.0.1:62001",0+2+4+8+16+32         ,'# ',               '(nox Virtual Input|Android Input)'],  ["BlueStacks2","",              "BlueStacks ",          "[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,0,             "emulator-5554",  1    +8+16   +64      ,'$ ',               'BlueStacks Virtual Touch'],  ["BlueStacks", "",              "BlueStacks App Player","[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,0,             "emulator-5554",  1    +8+16   +64      ,'$ ',               'BlueStacks Virtual Touch']  ]
 Global $OnlyInstance = True
 Global $FoundRunningAndroid = False
 Global $FoundInstalledAndroid = False
@@ -31916,6 +31991,7 @@ Global $chkMakeIMGCSV
 Global $THSnipeBeforeDBEnable = 0 , $THSnipeBeforeLBEnable = 0
 Global $THSnipeBeforeDBTiles = 0 , $THSnipeBeforeLBTiles = 0
 Global $THSnipeBeforeDBScript = 0 , $THSnipeBeforeLBScript = 0
+Global $ichkConnection = 1
 Global $ichkCloseWaitTrain = 0, $ichkCloseWaitSpell, $ichkCloseWaitHero, $ibtnCloseWaitStop = 0, $ibtnCloseWaitStopRandom, $ibtnCloseWaitExact, $ibtnCloseWaitRandom, $icmbCloseWaitRdmPercent, $ichkCloseWaitEnable = 1
 Global $aTimeTrain[3] = [0, 0, 0]
 Global $iCCRemainTime = 0
@@ -31943,6 +32019,7 @@ readConfig()
 EndIf
 Global $hSplash = 0, $hSplashProgress, $lSplashStatus, $lSplashTitle
 Global $iTotalSteps = 10, $iCurrentStep = 0
+#Region Splash
 Local $sSplashImg = @ScriptDir & "\Images\logo.jpg"
 Local $hImage, $iX, $iY
 Local $iT = 20
@@ -31962,6 +32039,7 @@ $hSplashProgress = GUICtrlCreateProgress(15, $iY + $iT + $iB + 20, $iX - 30, 10,
 $lSplashStatus = GUICtrlCreateLabel("", 15, $iY + $iT + $iB + 38, $iX - 30, 15, $SS_CENTER)
 GUISetState(@SW_SHOWNOACTIVATE, $hSplash)
 EndIf
+#EndRegion
 Global $aIsReloadError[4] = [457, 301 + $midOffsetY, 0x33B5E5, 10]
 Global $aIsMain[4] = [284, 28, 0x41B1CD, 20]
 Global $aIsDPI125[4] = [355, 35, 0x399CB8, 15]
@@ -35604,6 +35682,7 @@ Global $sTxtSkSpell = GetTranslated(605,13, "Skeleton Spell")
 Global $sTxtSkeletonSpells = GetTranslated(605,14, "Skeleton")
 Global $sTxtElixirTroops =  $sTxtBarbarians & "|" & $sTxtArchers & "|" & $sTxtGiants & "|" & $sTxtGoblins & "|" & $sTxtWallBreakers & "|" & $sTxtBalloons & "|" & $sTxtWizards & "|" & $sTxtHealers &"|" & $sTxtDragons & "|" & $sTxtPekkas & "|" & $sTxtBabyDragons & "|" & $sTxtMiners
 Global Const $aLabTroops[30][5] = [  [-1, -1, -1, GetTranslated(603,0, "None"), $eIcnBlank],  [123, 320 + $midOffsetY, 0, $sTxtBarbarians, $eIcnBarbarian],  [123, 427 + $midOffsetY, 0, $sTxtArchers, $eIcnArcher],  [230, 320 + $midOffsetY, 0, $sTxtGiants, $eIcnGiant],  [230, 427 + $midOffsetY, 0, $sTxtGoblins, $eIcnGoblin],  [337, 320 + $midOffsetY, 0, $sTxtWallBreakers, $eIcnWallBreaker],  [337, 427 + $midOffsetY, 0, $sTxtBalloons, $eIcnBalloon],  [443, 320 + $midOffsetY, 0, $sTxtWizards, $eIcnWizard],  [443, 427 + $midOffsetY, 0, $sTxtHealers, $eIcnHealer],  [550, 320 + $midOffsetY, 0, $sTxtDragons, $eIcnDragon],  [550, 427 + $midOffsetY, 0, $sTxtPekkas, $eIcnPekka],  [657, 320 + $midOffsetY, 0, $sTxtBabyDragons, $eIcnBabyDragon],  [657, 427 + $midOffsetY, 0, $sTxtMiners, $eIcnMiner],  [433, 320 + $midOffsetY, 1, $sTxtLiSpell, $eIcnLightSpell],  [433, 427 + $midOffsetY, 1, $sTxtHeSpell, $eIcnHealSpell],  [540, 320 + $midOffsetY, 1, $sTxtRaSpell, $eIcnRageSpell],  [540, 427 + $midOffsetY, 1, $sTxtJuSPell, $eIcnJumpSpell],  [647, 320 + $midOffsetY, 1, $sTxtFrSpell, $eIcnFreezeSpell],  [647, 427 + $midOffsetY, 1, $sTxtClSpell, $eIcnCloneSpell],  [109, 320 + $midOffsetY, 2, $sTxtPoSpell, $eIcnPoisonSpell],  [109, 427 + $midOffsetY, 2, $sTxtEaSpell, $eIcnEarthQuakeSpell],  [216, 320 + $midOffsetY, 2, $sTxtHaSpell, $eIcnHasteSpell],  [216, 427 + $midOffsetY, 2, $sTxtSkSpell, $eIcnSkeletonSpell],  [322, 320 + $midOffsetY, 2, $sTxtMinions, $eIcnMinion],  [322, 427 + $midOffsetY, 2, $sTxtHogRiders, $eIcnHogRider],  [429, 320 + $midOffsetY, 2, $sTxtValkyries, $eIcnValkyrie],  [429, 427 + $midOffsetY, 2, $sTxtGolems, $eIcnGolem],  [536, 320 + $midOffsetY, 2, $sTxtWitches, $eIcnWitch],  [536, 427 + $midOffsetY, 2, $sTxtLavaHounds, $eIcnLavaHound],  [642, 320 + $midOffsetY, 2, $sTxtBowlers, $eIcnBowler]]
+#Region ====================== #### CONSTANTS #### ======================
 Global Const $CLSID_ShellLink = "{00021401-0000-0000-C000-000000000046}"
 Global Const $sIID_IShellLinkW = "{000214F9-0000-0000-C000-000000000046}"
 Global Const $tag_IShellLinkW =  "GetPath hresult(long;long;long;long);" &  "GetIDList hresult(long);" &  "SetIDList hresult(long);" &  "GetDescription hresult(long;long);" &  "SetDescription hresult(wstr);" &  "GetWorkingDirectory hresult(long;long);" &  "SetWorkingDirectory hresult(long;long);" &  "GetArguments hresult(long;long);" &  "SetArguments hresult(ptr);" &  "GetHotkey hresult(long);" &  "SetHotkey hresult(word);" &  "GetShowCmd hresult(long);" &  "SetShowCmd hresult(int);" &  "GetIconLocation hresult(long;long;long);" &  "SetIconLocation hresult(wstr;int);" &  "SetRelativePath hresult(long;long);" &  "Resolve hresult(long;long);" &  "SetPath hresult(wstr);"
@@ -35617,6 +35696,7 @@ Global Const $tagPROPERTYKEY = 'struct;ulong Data1;ushort Data2;ushort Data3;byt
 Global $tagPROPVARIANT =  'USHORT vt;' &  'WORD wReserved1;' &  'WORD wReserved2;' &  'WORD wReserved3;' &  'LONG;PTR'
 Global Const $sIID_IPropertyStore = '{886D8EEB-8CF2-4446-8D02-CDBA1DBDCF99}'
 Global Const $VT_EMPTY = 0, $VT_LPWSTR = 31
+#EndRegion ====================== #### CONSTANTS #### ======================
 Func _WindowAppId($hWnd, $appid = Default)
 Local $tpIPropertyStore = DllStructCreate('ptr')
 _WinAPI_SHGetPropertyStoreForWindow($hWnd, $sIID_IPropertyStore, $tpIPropertyStore)
@@ -40985,7 +41065,7 @@ $hGUI_ATTACK_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslated(600,42,"Search && At
 $hGUI_ATTACK_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(600,43,"Strategies"))
 GUICtrlCreateTabItem("")
 SplashStep(GetTranslated(500, 28, "Loading Bot tab..."))
-Global $chkDisableSplash, $chkVersion, $chkDeleteLogs, $chkDeleteTemp, $chkDeleteLoots
+Global $chkDisableSplash, $chkVersion, $chkDeleteLogs, $chkDeleteTemp, $chkDeleteLoots, $chkConnection
 Global $chkAutostart, $txtAutostartDelay, $chkLanguage,$chkDisposeWindows, $txtWAOffsetx, $txtWAOffsety, $cmbDisposeWindowsCond
 Global $chkDebugClick, $chkDebugSetlog, $chkDebugOcr, $chkDebugImageSave, $chkdebugBuildingPos, $chkdebugTrain, $chkdebugOCRDonate
 Global $chkTotalCampForced, $txtTotalCampForced
@@ -41491,8 +41571,13 @@ GUICtrlSetData(-1, "English", "English")
 GUICtrlSetOnEvent(-1, "cmbLanguage")
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 $y += 54
-$grpOnLoadBot = GUICtrlCreateGroup(GetTranslated(636,2, "When Bot Loads"), $x - 20, $y - 20, 210, 120)
+$grpOnLoadBot = GUICtrlCreateGroup(GetTranslated(636,2, "When Bot Loads"), $x - 20, $y - 20, 210, 140)
 $y -= 4
+$chkConnection = GUICtrlCreateCheckbox("Check Internet Connection", $x, $y, -1, -1)
+$txtTip = "Check if your Internet Connection Lost Will Close Emulator" & @CRLF &  "     AND IF YOUR INTERNET RECONNECTED, WILL BE BACK START EMULATOR"
+_GUICtrlSetTip(-1, $txtTip)
+GUICtrlSetState(-1, $GUI_CHECKED)
+$y += 20
 $chkDisableSplash = GUICtrlCreateCheckbox(GetTranslated(636,100, "Disable Splash Screen"), $x, $y, -1, -1)
 $txtTip = GetTranslated(636,101, "Disables the splash screen on startup.")
 GUICtrlSetTip(-1, $txtTip)
@@ -41814,6 +41899,7 @@ GUICtrlSetFont(-1, 6, $FW_BOLD)
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
 SplashStep(GetTranslated(500, 30, "Initializing GUI..."))
+#Region
 Bind_ImageList($tabMain)
 Bind_ImageList($hGUI_VILLAGE_TAB)
 Bind_ImageList($hGUI_ARMY_TAB)
@@ -41829,7 +41915,10 @@ Bind_ImageList($hGUI_THSNIPE_TAB)
 Bind_ImageList($hGUI_BOT_TAB)
 Bind_ImageList($hGUI_STRATEGIES_TAB)
 Bind_ImageList($hGUI_STATS_TAB)
+#EndRegion
+#Region
 GUICtrlSetState($hGUI_LOG, $GUI_SHOW)
+#EndRegion
 cmbLog()
 If IsHWnd($hSplash) Then GUIDelete($hSplash)
 If Not $NoFocusTampering Then
@@ -47775,8 +47864,13 @@ GUISetOnEvent($GUI_EVENT_MINIMIZE, "GUIEvents", $frmBot)
 GUISetOnEvent($GUI_EVENT_RESTORE, "GUIEvents", $frmBot)
 cmbDBAlgorithm()
 cmbABAlgorithm()
+#Region Header
+#EndRegion Header
+#Region Global Variables
 Global Enum  $iOAER_bSet_ErrLine, $iOAER_bIn_Proc, $iOAER_bUse_StdOut, $iOAER_iPID, $iOAER_hErr_Callback, $iOAER_hErr_WinHook, $iOAER_sUserFunc, $iOAER_vUserParams, $iOAER_iCOMErrorNumber, $iOAER_sCOMErrorDesc,  $iOAER_Total
 Global $aOAER_DATA[$iOAER_Total]
+#EndRegion Global Variables
+#Region Public Functions
 Func _OnAutoItErrorRegister()
 If $aOAER_DATA[$iOAER_hErr_WinHook] Then
 Return
@@ -47793,6 +47887,8 @@ EndFunc
 Func _OnAutoItErrorUnRegister()
 __OAER_OnExit()
 EndFunc
+#EndRegion Public Functions
+#Region Internal Functions
 Func __OAER_OnExit()
 If $aOAER_DATA[$iOAER_hErr_WinHook] Then
 _WinAPI_UnhookWindowsHookEx($aOAER_DATA[$iOAER_hErr_WinHook])
@@ -47823,6 +47919,7 @@ _WinAPI_FatalAppExit($sError_Msg)
 EndSwitch
 Return _WinAPI_CallNextHookEx($aOAER_DATA[$iOAER_hErr_WinHook], $nCode, $wParam, $lParam)
 EndFunc
+#EndRegion Internal Functions
 Func _GUI_Value_STATE($action_groupe, $group_de_controle)
 $liste_controle = StringSplit($group_de_controle, "#")
 If IsArray($liste_controle) Then
@@ -49368,6 +49465,11 @@ GUICtrlSetData($txtTimeWakeUp, $sTimeWakeUp)
 GUICtrlSetData($txtRestartGold, $itxtRestartGold)
 GUICtrlSetData($txtRestartElixir, $itxtRestartElixir)
 GUICtrlSetData($txtRestartDark, $itxtRestartDark)
+If $ichkConnection = 1 Then
+GUICtrlSetState($chkConnection, $GUI_CHECKED)
+Else
+GUICtrlSetState($chkConnection, $GUI_UNCHECKED)
+EndIf
 If $ichkDisableSplash = 1 Then
 GUICtrlSetState($chkDisableSplash, $GUI_CHECKED)
 Else
@@ -50468,6 +50570,7 @@ $iValuePBTimeForcedExit = IniRead($config, "other", "ValuePBTimeForcedExit", "15
 $ichkLanguage = IniRead($config, "General", "ChkLanguage", "1")
 $ichkDisableSplash = IniRead($config, "General", "ChkDisableSplash", $ichkDisableSplash)
 $ichkVersion = IniRead($config, "General", "ChkVersion", "1")
+$ichkConnection = IniRead($config, "general", "ChkConnect", "1")
 $sTxtRequest = IniRead($config, "donate", "txtRequest", "")
 $ichkDonateBarbarians = IniRead($config, "donate", "chkDonateBarbarians", "0")
 $ichkDonateAllBarbarians = IniRead($config, "donate", "chkDonateAllBarbarians", "0")
@@ -51172,6 +51275,12 @@ $sTimeWakeUp = GUICtrlRead($txtTimeWakeUp)
 $itxtRestartGold = GUICtrlRead($txtRestartGold)
 $itxtRestartElixir = GUICtrlRead($txtRestartElixir)
 $itxtRestartDark = GUICtrlRead($txtRestartDark)
+If GUICtrlRead($chkConnection) = $GUI_CHECKED Then
+$ichkConnection = 1
+Else
+$ichkConnection = 0
+EndIf
+IniWriteS($config, "general", "ChkConnect", $ichkConnection)
 If GUICtrlRead($chkDisableSplash) = $GUI_CHECKED Then
 $ichkDisableSplash = 1
 Else
@@ -58305,19 +58414,27 @@ ReleaseClicks()
 Next
 EndFunc
 Func GetXPosOfArmySlot($slotNumber, $xOffsetFor11Slot)
-Local $iAmount
+Local $SlotPixelColor, $SlotPixelColorTemp, $SlotPixelColor1
+$xOffsetFor11Slot -= 8
 Switch $slotNumber
-Case 0 To 1
+Case 0 To 4
 $SlotComp = 0
-Case 2 To 5
+Case 5
 $SlotComp = 1
 Case Else
 $SlotComp = 2
 EndSwitch
-If $atkTroops[11][0] = -1 Then
+If $slotNumber = $King Or $slotNumber = $Queen Or $slotNumber = $Warden Then $xOffsetFor11Slot += 8
+$SlotPixelColor = _ColorCheck(_GetPixelColor(834, 588 + $bottomOffsetY, True), Hex(0x040c0a, 6), 15)
+If $debugSetlog = 1 Then
+Setlog(" Slot 0  _ColorCheck 0x040c0a at (834," & 588 + $bottomOffsetY & "): " & $SlotPixelColor, $COLOR_PURPLE)
+$SlotPixelColorTemp = _GetPixelColor(834, 588 + $bottomOffsetY, $bCapturePixel)
+Setlog(" Slot 0  _GetPixelColo(834," & 588 + $bottomOffsetY & "): " & $SlotPixelColorTemp, $COLOR_PURPLE)
+EndIf
+If $SlotPixelColor = True Then
 Return $xOffsetFor11Slot + $SlotComp + ($slotNumber * 72)
 Else
-Return $xOffsetFor11Slot + $SlotComp + ($slotNumber * 72) - 30
+Return $xOffsetFor11Slot + $SlotComp + ($slotNumber * 72) - 13
 EndIf
 EndFunc
 Func GetSlotIndexFromXPos($xPos)
@@ -60059,9 +60176,9 @@ If $debugsetlogTrain = 1 Then SetLog("Making Poison Spell: " & $iPoisonSpell)
 If _sleep($iDelayTrain2) Then Return
 If $iPoisonSpell > 0 Then
 If _sleep($iDelayTrain2) Then Return
-If _ColorCheck(_GetPixelColor(233 + 107 * 0, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And  _ColorCheck(_GetPixelColor(235 + 107 * 0, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then
+If _ColorCheck(_GetPixelColor(231 + 107 * 0, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And  _ColorCheck(_GetPixelColor(234 + 107 * 0, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then
 setlog("Not enough Elixir to create Poison Spell", $COLOR_RED)
-If $debugsetlogTrain = 1 Then setlog("colorceck: " & 233 + 107 * 0& "," &  375 + $midOffsetY,$COLOR_RED)
+If $debugsetlogTrain = 1 Then setlog("colorceck: " & 233 + 107 * 0 & "," & 375 + $midOffsetY, $COLOR_RED)
 Return
 ElseIf _ColorCheck(_GetPixelColor(200, 346 + $midOffsetY, True), Hex(0x414141, 6), 20) Then
 setlog("Spell Factory Full", $COLOR_RED)
@@ -60091,7 +60208,7 @@ If $debugsetlogTrain = 1 Then SetLog("Making Earthquake Spell: " & $iEarthSpell)
 If _sleep($iDelayTrain2) Then Return
 If $iEarthSpell > 0 Then
 If _sleep($iDelayTrain2) Then Return
-If _ColorCheck(_GetPixelColor(233 + 107 * 1, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And  _ColorCheck(_GetPixelColor(235 + 107 * 1, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then
+If _ColorCheck(_GetPixelColor(231 + 107 * 1, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And  _ColorCheck(_GetPixelColor(234 + 107 * 1, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then
 setlog("Not enough Elixir to create Earthquake Spell", $COLOR_RED)
 Return
 ElseIf _ColorCheck(_GetPixelColor(200, 346 + $midOffsetY, True), Hex(0x414141, 6), 20) Then
@@ -60122,7 +60239,7 @@ If $debugsetlogTrain = 1 Then SetLog("Making Haste Spell: " & $iHasteSpell)
 If _sleep($iDelayTrain2) Then Return
 If $iHasteSpell > 0 Then
 If _sleep($iDelayTrain2) Then Return
-If _ColorCheck(_GetPixelColor(233 + 107 * 2, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And  _ColorCheck(_GetPixelColor(235 + 107 * 2, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then
+If _ColorCheck(_GetPixelColor(231 + 107 * 2, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And  _ColorCheck(_GetPixelColor(234 + 107 * 2, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then
 setlog("Not enough Elixir to create Haste Spell", $COLOR_RED)
 Return
 ElseIf _ColorCheck(_GetPixelColor(200, 346 + $midOffsetY, True), Hex(0x414141, 6), 20) Then
@@ -60153,7 +60270,7 @@ If $debugsetlogTrain = 1 Then SetLog("Making Skeleton Spell: " & $iSkeletonSpell
 If _sleep($iDelayTrain2) Then Return
 If $iSkeletonSpell > 0 Then
 If _sleep($iDelayTrain2) Then Return
-If _ColorCheck(_GetPixelColor(233 + 107 * 3, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False  Then
+If _ColorCheck(_GetPixelColor(231 + 107 * 3, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And  _ColorCheck(_GetPixelColor(234 + 107 * 3, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then
 setlog("Not enough Elixir to create Skeleton Spell", $COLOR_RED)
 Return
 ElseIf _ColorCheck(_GetPixelColor(200, 346 + $midOffsetY, True), Hex(0x414141, 6), 20) Then
@@ -60462,45 +60579,6 @@ EndFunc
 Global $LastBarrackTrainDonatedTroop = 1
 Global $LastDarkBarrackTrainDonatedTroop = 1
 Func Train()
-If $iAtkAlgorithm[$LB] = 2 Then
-Local $TempTroopGroup[12][3] = [["Gobl", 3, 1], ["Arch", 1, 1], ["Giant", 2, 5], ["Wall", 4, 2], ["Barb", 0, 1], ["Heal", 7, 14], ["Pekk", 9, 25], ["Ball", 5, 5], ["Wiza", 6, 4], ["Drag", 8, 20], ["BabyD", 10, 10], ["Mine", 11, 5]]
-$TroopGroup = $TempTroopGroup
-Local $tempTroopName[UBound($TroopGroup, 1)]
-$TroopName = $tempTroopName
-Local $TempTroopNamePosition[UBound($TroopGroup, 1)]
-$TroopNamePosition = $TempTroopNamePosition
-Local $TempTroopHeight[UBound($TroopGroup, 1)]
-$TroopHeight = $TempTroopHeight
-Local $TempTroopGroupDark[7][3] = [["Mini", 0, 2], ["Hogs", 1, 5], ["Valk", 2, 8], ["Gole", 3, 30], ["Witc", 4, 12], ["Lava", 5, 30], ["Bowl", 6, 6]]
-$TroopGroupDark = $TempTroopGroupDark
-Local $TempTroopDarkName[UBound($TroopGroupDark, 1)]
-$TroopDarkName = $TempTroopDarkName
-Local $TempTroopDarkNamePosition[UBound($TroopGroupDark, 1)]
-$TroopDarkNamePosition = $TempTroopDarkNamePosition
-Local $TempSpellGroup[3][3] = [["PSpell", 0, 1], ["ESpell", 1, 1], ["HaSpell", 2, 1]]
-$SpellGroup = $TempSpellGroup
-Local $TempSpellName[UBound($SpellGroup, 1)]
-$SpellName = $TempSpellName
-Local $TempSpellNamePosition[UBound($SpellGroup, 1)]
-$SpellNamePosition = $TempSpellNamePosition
-Local $TempSpellHeight[UBound($SpellGroup, 1)]
-$SpellHeight = $TempSpellHeight
-For $i = 0 To UBound($TroopGroup, 1) - 1
-$TroopName[$i] = $TroopGroup[$i][0]
-$TroopNamePosition[$i] = $TroopGroup[$i][1]
-$TroopHeight[$i] = $TroopGroup[$i][2]
-Next
-For $i = 0 To UBound($TroopGroupDark, 1) - 1
-$TroopDarkName[$i] = $TroopGroupDark[$i][0]
-$TroopDarkNamePosition[$i] = $TroopGroupDark[$i][1]
-$TroopDarkHeight[$i] = $TroopGroupDark[$i][2]
-Next
-For $i = 0 To UBound($SpellGroup, 1) - 1
-$SpellName[$i] = $SpellGroup[$i][0]
-$SpellNamePosition[$i] = $SpellGroup[$i][1]
-$SpellHeight[$i] = $SpellGroup[$i][2]
-Next
-EndIf
 Local $anotherTroops
 Local $tempCounter = 0
 Local $tempElixir = ""
@@ -60657,7 +60735,7 @@ For $i = 0 To UBound($TroopName) - 1
 If $TroopName[$i] <> "Barb" And $TroopName[$i] <> "Arch" And $TroopName[$i] <> "Gobl" And Number(Eval($TroopName[$i] & "Comp")) <> 0 Then
 If $debugsetlogTrain = 1 Then SetLog("GUI ASSIGN to $Cur" & $TroopName[$i] & ":" & Eval($TroopName[$i] & "Comp") & " Units", $COLOR_PURPLE)
 If $icmbTroopComp <> 8 And Eval("Cur" & $TroopName[$i]) * -1 >= Eval($TroopName[$i] & "Comp") * 2.0 Then
-SetLog("Way Too many " & $TroopName[$i] & ", Dont Train.")
+SetLog("Way Too many " & $TroopName[$i] & ", Don't Train.")
 Assign(("Cur" & $TroopName[$i]), 0)
 $anotherTroops += Eval($TroopName[$i] & "Comp") * $TroopHeight[$i]
 Else
@@ -60898,6 +60976,7 @@ Else
 If $debugsetlogTrain = 1 Then SetLog("---------TRAIN NEW BARRACK MODE------------------------", $COLOR_PURPLE)
 If $FirstStart = True Then SetLog("Remove previous queued troops and start training")
 If $fullarmy = True Then SetLog("Build troops before attacking.")
+Local $IfExistTroopsToTrain = False
 While isBarrack() And $isNormalBuild
 $brrNum += 1
 If $debugsetlogTrain = 1 Then SetLog("====== Checking available Barrack: " & $brrNum & " ======", $COLOR_PURPLE)
@@ -61030,21 +61109,105 @@ EndIf
 If $RunState = False Then Return
 Next
 If $icmbTroopComp <> 8 And $fullarmy = False And $FirstStart = False Then
+For $i = 0 To UBound($TroopName) - 1
+If Eval("Don" & $TroopName[$i]) > 0 Then
+If Eval("Don" & $TroopName[$i]) >= 2 * $numBarracksAvaiables Then
+Local $TotalQuantity = 0
+$TotalQuantity = Floor(Eval("Don" & $TroopName[$i]) / $numBarracksAvaiables)
+TrainIt(Eval("e" & $TroopName[$i]), $TotalQuantity)
+If $brrNum >= $numBarracksAvaiables Then
+Assign("Don" & $TroopName[$i], Eval("Don" & $TroopName[$i]) - ($TotalQuantity * $numBarracksAvaiables))
+EndIf
+If $RunState = False Then Return
+Else
+If $LastBarrackTrainDonatedTroop = $brrNum Then
+TrainIt(Eval("e" & $TroopName[$i]), 1)
+Assign("Don" & $TroopName[$i], Eval("Don" & $TroopName[$i]) - 1)
+$LastBarrackTrainDonatedTroop = $brrNum + 1
+If $RunState = False Then Return
+EndIf
+EndIf
+EndIf
+Next
+If $LastBarrackTrainDonatedTroop > $numBarracksAvaiables Then
+$LastBarrackTrainDonatedTroop = 1
+EndIf
+If $debugsetlogTrain = 1 Then Setlog("$LastBarrackTrainDonatedTroop: " & $LastBarrackTrainDonatedTroop)
+If $debugsetlogTrain = 1 Then Setlog("Barrack: " & $brrNum)
+If $brrNum >= $numBarracksAvaiables Then
+For $i = 0 To UBound($TroopName) - 1
+If Eval("Don" & $TroopName[$i]) > 0 Then
+$IfExistTroopsToTrain = True
+EndIf
+If $RunState = False Then Return
+Next
+$i = 0
+While $IfExistTroopsToTrain = True
+If _Sleep($iDelayTrain1) Then Return
+ClickP($aAway, 2, $iDelayTrain5, "#0501")
+If WaitforPixel(28, 505 + $bottomOffsetY, 30, 507 + $bottomOffsetY, Hex(0xE4A438, 6), 5, 10) Then
+If $debugsetlogTrain = 1 Then SetLog("Click $aArmyTrainButton", $COLOR_GREEN)
+If $iUseRandomClick = 0 Then
+Click($aArmyTrainButton[0], $aArmyTrainButton[1], 1, 0, "#9998")
+Else
+ClickR($aArmyTrainButtonRND, $aArmyTrainButton[0], $aArmyTrainButton[1], 1, 0)
+EndIf
+EndIf
+$icount = 0
+While IsTrainPage() = False
+If _Sleep($iDelayTrain1) Then Return
+$icount += 1
+If $icount = 20 Then ExitLoop
+WEnd
+If Not (IsTrainPage()) Then Return
+_TrainMoveBtn(+1)
+$brrNum = 1
+If _Sleep($iDelayTrain2) Then Return
+While isBarrack()
+If _Sleep($iDelayTrain1) Then Return
+If $debugsetlogTrain = 1 Then SetLog("Call Func TrainIt Rest Donated Troops", $COLOR_PURPLE)
 If $LastBarrackTrainDonatedTroop = $brrNum Then
 For $i = 0 To UBound($TroopName) - 1
 If Eval("Don" & $TroopName[$i]) > 0 Then
 TrainIt(Eval("e" & $TroopName[$i]), 1)
 Assign("Don" & $TroopName[$i], Eval("Don" & $TroopName[$i]) - 1)
-If $debugsetlogTrain = 1 Then Setlog("Train 1 " & NameOfTroop(Eval("e" & $TroopName[$i])) & " remain " & Eval("Don" & $TroopName[$i]) & " to train.")
 $LastBarrackTrainDonatedTroop = $brrNum + 1
-If $LastBarrackTrainDonatedTroop > $numBarracksAvaiables Then
-$LastBarrackTrainDonatedTroop = 1
-EndIf
 EndIf
 If $RunState = False Then Return
 Next
+If $LastBarrackTrainDonatedTroop > $numBarracksAvaiables Then
+$LastBarrackTrainDonatedTroop = 1
+EndIf
 If $debugsetlogTrain = 1 Then Setlog("$LastBarrackTrainDonatedTroop: " & $LastBarrackTrainDonatedTroop)
 If $debugsetlogTrain = 1 Then Setlog("Barrack: " & $brrNum)
+EndIf
+If $brrNum >= $numBarracksAvaiables Then
+$IfExistTroopsToTrain = False
+For $i = 0 To UBound($TroopName) - 1
+If Eval("Don" & $TroopName[$i]) > 0 Then
+$IfExistTroopsToTrain = True
+EndIf
+If $RunState = False Then Return
+Next
+If $IfExistTroopsToTrain = False Then Return
+If $IfExistTroopsToTrain = True Then ExitLoop
+EndIf
+_TrainMoveBtn(+1)
+$brrNum += 1
+If _Sleep($iDelayTrain3) Then Return
+If Not (IsTrainPage()) Then Return
+If $RunState = False Then Return
+WEnd
+If _Sleep($iDelayTrain4) Then Return
+$i += 1
+If CheckFullBarrack() Or $i >= 3 Then
+$IfExistTroopsToTrain = False
+For $i = 0 To UBound($TroopName) - 1
+Assign("Don" & $TroopName[$i], 0)
+Next
+ExitLoop
+EndIf
+WEnd
 EndIf
 If _ColorCheck(_GetPixelColor(599, 202 + $midOffsetY, True), Hex(0xa8d070, 6), 20) = False Then
 $BarrackStatus[$brrNum - 1] = False
@@ -61330,21 +61493,86 @@ EndIf
 EndIf
 Next
 If $icmbTroopComp <> 8 And $fullarmy = False And $FirstStart = False Then
+$IfExistTroopsToTrain = False
+For $i = 0 To UBound($TroopDarkName) - 1
+If Eval("Don" & $TroopDarkName[$i]) > 0 Then
+If Eval("Don" & $TroopDarkName[$i]) >= 2 * $numDarkBarracksAvaiables Then
+Local $TotalQuantity = 0
+$TotalQuantity = Floor(Eval("Don" & $TroopDarkName[$i]) / $numDarkBarracksAvaiables)
+TrainIt(Eval("e" & $TroopDarkName[$i]), $TotalQuantity)
+If $brrDarkNum >= $numDarkBarracksAvaiables Then
+Assign("Don" & $TroopDarkName[$i], Eval("Don" & $TroopDarkName[$i]) - ($TotalQuantity * $numDarkBarracksAvaiables))
+EndIf
+If $RunState = False Then Return
+Else
+If $LastDarkBarrackTrainDonatedTroop = $brrDarkNum Then
+TrainIt(Eval("e" & $TroopDarkName[$i]), 1)
+Assign("Don" & $TroopDarkName[$i], Eval("Don" & $TroopDarkName[$i]) - 1)
+$LastDarkBarrackTrainDonatedTroop = $brrDarkNum + 1
+If $RunState = False Then Return
+EndIf
+EndIf
+EndIf
+Next
+If $LastDarkBarrackTrainDonatedTroop > $numDarkBarracksAvaiables Then
+$LastDarkBarrackTrainDonatedTroop = 1
+EndIf
+If $debugsetlogTrain = 1 Then Setlog("$LastDarkBarrackTrainDonatedTroop: " & $LastDarkBarrackTrainDonatedTroop)
+If $debugsetlogTrain = 1 Then Setlog("Dark Barrack: " & $brrDarkNum)
+If $brrDarkNum >= $numDarkBarracksAvaiables Then
+For $i = 0 To UBound($TroopDarkName) - 1
+If Eval("Don" & $TroopDarkName[$i]) > 0 Then
+$IfExistTroopsToTrain = True
+EndIf
+If $RunState = False Then Return
+Next
+$i = 0
+If $IfExistTroopsToTrain = True Then
+If $brrDarkNum = 2 Then
+_TrainMoveBtn(-1)
+$brrDarkNum = 1
+EndIf
+While isDarkBarrack()
+If _Sleep($iDelayTrain1) Then Return
+If $debugsetlogTrain = 1 Then SetLog("Call Func TrainIt Rest Donated Dark Troops", $COLOR_PURPLE)
 If $LastDarkBarrackTrainDonatedTroop = $brrDarkNum Then
 For $i = 0 To UBound($TroopDarkName) - 1
 If Eval("Don" & $TroopDarkName[$i]) > 0 Then
 TrainIt(Eval("e" & $TroopDarkName[$i]), 1)
 Assign("Don" & $TroopDarkName[$i], Eval("Don" & $TroopDarkName[$i]) - 1)
-If $debugsetlogTrain = 1 Then Setlog("Train 1 " & NameOfTroop(Eval("e" & $TroopDarkName[$i])) & " remain " & Eval("Don" & $TroopDarkName[$i]) & " to train.")
 $LastDarkBarrackTrainDonatedTroop = $brrDarkNum + 1
+EndIf
+If $RunState = False Then Return
+Next
 If $LastDarkBarrackTrainDonatedTroop > $numDarkBarracksAvaiables Then
 $LastDarkBarrackTrainDonatedTroop = 1
 EndIf
-EndIf
-Next
-If $debugsetlogTrain = 1 Then Setlog("Dark Barrack: " & $brrDarkNum)
 If $debugsetlogTrain = 1 Then Setlog("$LastDarkBarrackTrainDonatedTroop: " & $LastDarkBarrackTrainDonatedTroop)
+If $debugsetlogTrain = 1 Then Setlog("Dark Barrack: " & $brrDarkNum)
+EndIf
+If $brrDarkNum >= $numDarkBarracksAvaiables Then
+$IfExistTroopsToTrain = False
+For $i = 0 To UBound($TroopDarkName) - 1
+If Eval("Don" & $TroopDarkName[$i]) > 0 Then
+$IfExistTroopsToTrain = True
+EndIf
 If $RunState = False Then Return
+Next
+If $IfExistTroopsToTrain = False Then ExitLoop
+EndIf
+If $brrDarkNum = 1 Then
+_TrainMoveBtn(+1)
+$brrDarkNum = 2
+EndIf
+If $brrDarkNum = 2 Then
+_TrainMoveBtn(-1)
+$brrDarkNum = 1
+EndIf
+If Not (IsTrainPage()) Then Return
+If $RunState = False Then Return
+If $i = 6 Then ExitLoop
+WEnd
+EndIf
 EndIf
 If _ColorCheck(_GetPixelColor(599, 202 + $midOffsetY, True), Hex(0xa8d070, 6), 20) = False Then
 $BarrackDarkStatus[$brrDarkNum - 1] = False
@@ -61696,6 +61924,7 @@ Global $Ly[4] = [0, 0, 265, 265]
 Global $Rx[4] = [460, 860, 400, 860]
 Global $Ry[4] = [325, 325, 590, 590]
 Global $Area[5][11][4], $IS_x[11][4], $IS_y[11][4], $E[5][11]
+#Region ### Check Dead Base Functions ###
 Func ZombieSearch()
 _CaptureRegion()
 $ZombieCount = 0
@@ -61720,6 +61949,7 @@ Else
 Return False
 EndIf
 EndFunc
+#EndRegion ### Check Dead Base Functions ###
 Func ZombieSearch2($limit = 0, $tolerancefix = 0)
 Local $hTimer = TimerInit()
 Local $count = 0
@@ -62388,6 +62618,8 @@ PushMsg("TakeBreak")
 If _SleepStatus($iDelaycheckObstacles4) Then Return
 PureClickP($aReloadButton, 1, 0, "#0128")
 If $ichkSinglePBTForced = 1 Then $bGForcePBTUpdate = True
+$Quickattack = False
+$fullArmy = False
 Return True
 EndIf
 Select
@@ -62396,6 +62628,7 @@ SetLog("Village was Inactive, Reloading CoC...", $COLOR_RED)
 If $ichkSinglePBTForced = 1 Then $bGForcePBTUpdate = True
 Case _CheckPixel($aIsConnectLost, $bNoCapturePixel)
 SetLog("Connection lost, Reloading CoC...", $COLOR_RED)
+ChckInetCon()
 Case _CheckPixel($aIsCheckOOS, $bNoCapturePixel)
 SetLog("Out of Sync Error, Reloading CoC...", $COLOR_RED)
 Case _CheckPixel($aIsMaintenance, $bNoCapturePixel)
@@ -62620,6 +62853,8 @@ Setlog("Attacking disabled, Personal Break detected...", $COLOR_RED)
 If _CheckPixel($aSurrenderButton, $bCapturePixel) Then
 ReturnHome(False, False)
 Else
+$Quickattack = False
+$fullArmy = False
 CloseCoC()
 EndIf
 Else
@@ -62637,6 +62872,8 @@ If $debugSetlog = 1 Then Setlog("Personal Break OCR result = " & $Result, $COLOR
 If $Result <> "" Then
 If StringInStr($Result, "been") <> 0 Or StringInStr($Result, "after") <> 0 Or StringInStr($Result, "have") <> 0 Then
 Setlog("Online too long, Personal Break detected....", $COLOR_RED)
+$Quickattack = False
+$fullArmy = False
 checkMainScreen()
 Else
 If $debugSetlog = 1 Then Setlog("wrong text string", $COLOR_PURPLE)
@@ -65990,6 +66227,7 @@ Global Const $RI_KEY_BREAK = 1
 Global Const $RI_KEY_E0 = 2
 Global Const $RI_KEY_E1 = 4
 Global Const $RI_KEY_MAKE = 0
+#Region Global Variables and Constants
 Global Const $tagOSVERSIONINFOEX = $tagOSVERSIONINFO & ';ushort ServicePackMajor;ushort ServicePackMinor;ushort SuiteMask;byte ProductType;byte Reserved'
 Global Const $tagRAWINPUTDEVICE = 'struct;ushort UsagePage;ushort Usage;dword Flags;hwnd hTarget;endstruct'
 Global Const $tagRAWINPUTHEADER = 'struct;dword Type;dword Size;handle hDevice;wparam wParam;endstruct'
@@ -66011,6 +66249,10 @@ Global Const $tagUSEROBJECTFLAGS = 'int Inherit;int Reserved;dword Flags'
 Global Const $tagWINDOWINFO = 'dword Size;struct;long rWindow[4];endstruct;struct;long rClient[4];endstruct;dword Style;dword ExStyle;dword WindowStatus;uint cxWindowBorders;uint cyWindowBorders;word atomWindowType;word CreatorVersion'
 Global Const $tagWNDCLASS = 'uint Style;ptr hWndProc;int ClsExtra;int WndExtra;ptr hInstance;ptr hIcon;ptr hCursor;ptr hBackground;ptr MenuName;ptr ClassName'
 Global Const $tagWNDCLASSEX = 'uint Size;uint Style;ptr hWndProc;int ClsExtra;int WndExtra;ptr hInstance;ptr hIcon;ptr hCursor;ptr hBackground;ptr MenuName;ptr ClassName;ptr hIconSm'
+#EndRegion Global Variables and Constants
+#Region Functions list
+#EndRegion Functions list
+#Region Public Functions
 Func _WinAPI_ActivateKeyboardLayout($hLocale, $iFlag = 0)
 Local $aRet = DllCall('user32.dll', 'handle', 'ActivateKeyboardLayout', 'handle', $hLocale, 'uint', $iFlag)
 If @error Then Return SetError(@error, @extended, 0)
@@ -67177,6 +67419,10 @@ Local $aRet = DllCall('user32.dll', 'bool', 'UpdateLayeredWindowIndirect', 'hwnd
 If @error Then Return SetError(@error, @extended, False)
 Return $aRet[0]
 EndFunc
+#EndRegion Public Functions
+#Region Embedded DLL Functions
+#EndRegion Embedded DLL Functions
+#Region Internal Functions
 Func __EnumDefaultProc($pData, $lParam)
 #forceref $lParam
 Local $iLength = _WinAPI_StrLen($pData)
@@ -67197,6 +67443,7 @@ $__g_vEnum[$__g_vEnum[0][0]][$i] = DllStructGetData($tEPFI, $i + 2) * $iSize
 Next
 Return 1
 EndFunc
+#EndRegion Internal Functions
 Func Click($x, $y, $times = 1, $speed = 0, $debugtxt = "")
 If $debugClick = 1 Then
 Local $txt = _DecodeDebug($debugtxt)
@@ -67903,14 +68150,19 @@ EndFunc
 Func TimeDebug()
 Return "[" & @YEAR & "-" & @MON & "-" & @MDAY & " " & _NowTime(5) & "." & @MSEC & "] "
 EndFunc
+#Region Header
 If @AutoItVersion >= '3.3.2.0' Then
 Execute('OnAutoItExitRegister("__BlockInputEx_OnAutoItExit")')
 Else
 Execute('Assign("i_OptOEF", Opt("OnExitFunc", "__BlockInputEx_OnAutoItExit"), 2)')
 EndIf
+#EndRegion Header
+#Region Global Variables
 Global $ah_MouseKeyboard_WinHooks[8]
 Global $s_KeyboardKeys_Buffer
 Global $i_MouseHookGetAncestorHwnd = 1
+#EndRegion Global Variables
+#Region Public Functions
 Func _BlockInputEx($iBlockMode = -1, $sExclude = "", $sInclude = "", $hWindows = "", $iBlockAllInput = 0)
 $BlockInputPause = $iBlockMode
 If $iBlockMode < -1 Or $iBlockMode > 3 Then Return SetError(1, 0, 0)
@@ -67941,6 +68193,8 @@ $ah_MouseKeyboard_WinHooks[6] = "|" & $hWindows & "|"
 $ah_MouseKeyboard_WinHooks[7] = $iBlockAllInput
 Return 1
 EndFunc
+#EndRegion Public Functions
+#Region Internal Functions
 Func __BlockInputEx_KeyBoardHook_Proc($nCode, $wParam, $lParam)
 If $nCode < 0 Then
 Return _WinAPI_CallNextHookEx($ah_MouseKeyboard_WinHooks[2], $nCode, $wParam, $lParam)
@@ -68113,6 +68367,7 @@ EndFunc
 Func __BlockInputEx_OnAutoItExit()
 _BlockInputEx(0)
 EndFunc
+#EndRegion Internal Functions
 Func TogglePause()
 TogglePauseImpl("Button")
 EndFunc
@@ -69189,6 +69444,52 @@ _GUICtrlMenu_RemoveMenu($hSysMenu, $i)
 EndIf
 Next
 EndIf
+EndFunc
+Func ChckInetCon()
+Local $i = 0
+If GUICtrlRead($chkConnection) = $GUI_CHECKED Then
+$ichkConnection = 1
+SetLog("Lost Internet Connection Waiting Few Sec Before Close Emulator", $COLOR_RED)
+While $i < 5
+$ping = Ping("8.8.8.8")
+If $ping = 0 Then
+$i = $i + 1
+SetLog("My Ping: " & $ping & "ms.", $COLOR_RED)
+ElseIf $ping > 0 Then
+SetLog("My Ping: " & $ping & "ms.", $COLOR_GREEN)
+SetLog("Internet Reconnected Close Emulator Canceled", $COLOR_GREEN)
+ExitLoop
+Else
+$i = 0
+EndIf
+Sleep(5000)
+WEnd
+Else
+$ichkConnection = 0
+If $debugsetlog = 1 Then Setlog("Check Internet Connections skip", $COLOR_PURPLE)
+Return
+EndIf
+If $ping = 0 Then
+CloseAndroid()
+If _Sleep(5000) Then Return
+SetLog("Waiting Internet Connection..", $COLOR_BLUE)
+CheckConnection()
+EndIf
+EndFunc
+Func CheckConnection()
+Local $AmIConnected = "init"
+While $AmIConnected <> "True"
+$ping = Ping("8.8.8.8")
+If $ping = 0 Then
+SetLog("My Ping: " & $ping & "ms.", $COLOR_RED)
+ElseIf $ping > 0 Then
+SetLog("My Ping: " & $ping & "ms.", $COLOR_GREEN)
+$AmIConnected = "True"
+EndIf
+Sleep(5000)
+WEnd
+SetLog("Internet Reconnected Will Start Emulator", $COLOR_BLUE)
+StartAndroidCoC()
 EndFunc
 Global $oMyError = ObjEvent("AutoIt.Error", "BotComError")
 Func BotComError()

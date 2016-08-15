@@ -49,6 +49,7 @@ Func checkAttackDisable($iSource, $Result = "")
 					If _CheckPixel($aSurrenderButton, $bCapturePixel) Then ; village search requires end battle 1s, so check for surrender/endbattle button
 						ReturnHome(False, False) ;If End battle is available
 					Else
+						$Restart = True
 						CloseCoC()
 					EndIf
 				Else
@@ -66,6 +67,7 @@ Func checkAttackDisable($iSource, $Result = "")
 			If $Result <> "" Then ; fast test to see if have Take-A-Break
 				If StringInStr($Result, "been") <> 0 Or StringInStr($Result, "after") <> 0 Or StringInStr($Result, "have") <> 0 Then ; verify we have right text string, 'after' added for Personal Break
 					Setlog("Online too long, Personal Break detected....", $COLOR_RED)
+					$Restart = True
 					checkMainScreen()
 				Else
 					If $debugSetlog = 1 Then Setlog("wrong text string", $COLOR_PURPLE)
