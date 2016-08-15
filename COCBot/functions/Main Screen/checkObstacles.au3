@@ -58,6 +58,7 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
 			If _SleepStatus($iDelaycheckObstacles4) Then Return ; 2 Minutes
 			PureClickP($aReloadButton, 1, 0, "#0128");Click on reload button
 			If $ichkSinglePBTForced = 1 Then $bGForcePBTUpdate = True
+			$Restart = True
 			Return True
 		EndIf
 		;;;;;;;##### Connection Lost & OoS & Inactive & Maintenance #####;;;;;;;
@@ -67,6 +68,7 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
 				If $ichkSinglePBTForced = 1 Then $bGForcePBTUpdate = True
 			Case _CheckPixel($aIsConnectLost, $bNoCapturePixel) ; Connection Lost
 				SetLog("Connection lost, Reloading CoC...", $COLOR_RED)
+				ChckInetCon()
 			Case _CheckPixel($aIsCheckOOS, $bNoCapturePixel) ; Check OoS
 				SetLog("Out of Sync Error, Reloading CoC...", $COLOR_RED)
 			Case _CheckPixel($aIsMaintenance, $bNoCapturePixel) ; Check Maintenance
