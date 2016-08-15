@@ -7,7 +7,7 @@
 ; Parameters ....:
 ; Return values .: None
 ; Author ........: ProMac ( 08-2015)
-; Modified ......: Monkeyhunter (01/05-2016)
+; Modified ......: Monkeyhunter (01/05-2016) , ProMac( 08-2016)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -241,10 +241,10 @@ Func BrewSpells()
 				If _sleep($iDelayTrain2) Then Return
 				If $iPoisonSpell > 0 Then
 					If _sleep($iDelayTrain2) Then Return
-						If _ColorCheck(_GetPixelColor(233 + 107 * 0, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And _; White into number 0
-						   _ColorCheck(_GetPixelColor(235 + 107 * 0, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then ; White into number 5
+					If _ColorCheck(_GetPixelColor(231 + 107 * 0, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And _ ; White into number 0
+							_ColorCheck(_GetPixelColor(234 + 107 * 0, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then ; White into number 5
 						setlog("Not enough Elixir to create Poison Spell", $COLOR_RED)
-						If $debugsetlogTrain = 1 Then setlog("colorceck: " & 233 + 107 * 0& "," &  375 + $midOffsetY,$COLOR_RED)
+						If $debugsetlogTrain = 1 Then setlog("colorceck: " & 233 + 107 * 0 & "," & 375 + $midOffsetY, $COLOR_RED)
 						Return
 					ElseIf _ColorCheck(_GetPixelColor(200, 346 + $midOffsetY, True), Hex(0x414141, 6), 20) Then
 						setlog("Spell Factory Full", $COLOR_RED)
@@ -275,8 +275,8 @@ Func BrewSpells()
 				If _sleep($iDelayTrain2) Then Return
 				If $iEarthSpell > 0 Then
 					If _sleep($iDelayTrain2) Then Return
-						If _ColorCheck(_GetPixelColor(233 + 107 * 1, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And _; White into number 0
-						   _ColorCheck(_GetPixelColor(235 + 107 * 1, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then ; White into number 5
+					If _ColorCheck(_GetPixelColor(231 + 107 * 1, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And _ ; White into number 0
+							_ColorCheck(_GetPixelColor(234 + 107 * 1, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then ; White into number 5
 						setlog("Not enough Elixir to create Earthquake Spell", $COLOR_RED)
 						Return
 					ElseIf _ColorCheck(_GetPixelColor(200, 346 + $midOffsetY, True), Hex(0x414141, 6), 20) Then
@@ -308,8 +308,8 @@ Func BrewSpells()
 				If _sleep($iDelayTrain2) Then Return
 				If $iHasteSpell > 0 Then
 					If _sleep($iDelayTrain2) Then Return
-						If _ColorCheck(_GetPixelColor(233 + 107 * 2, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And _; White into number 0
-						   _ColorCheck(_GetPixelColor(235 + 107 * 2, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then ; White into number 5
+					If _ColorCheck(_GetPixelColor(231 + 107 * 2, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And _ ; White into number 0
+							_ColorCheck(_GetPixelColor(234 + 107 * 2, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then ; White into number 5
 						setlog("Not enough Elixir to create Haste Spell", $COLOR_RED)
 						Return
 					ElseIf _ColorCheck(_GetPixelColor(200, 346 + $midOffsetY, True), Hex(0x414141, 6), 20) Then
@@ -340,7 +340,8 @@ Func BrewSpells()
 				If _sleep($iDelayTrain2) Then Return
 				If $iSkeletonSpell > 0 Then
 					If _sleep($iDelayTrain2) Then Return
-					If _ColorCheck(_GetPixelColor(233 + 107 * 3, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False  Then  ; White into number 0
+					If _ColorCheck(_GetPixelColor(231 + 107 * 3, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False And _ ; White into number 0
+							_ColorCheck(_GetPixelColor(234 + 107 * 3, 370 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then ; White into number 5
 						setlog("Not enough Elixir to create Skeleton Spell", $COLOR_RED)
 						Return
 					ElseIf _ColorCheck(_GetPixelColor(200, 346 + $midOffsetY, True), Hex(0x414141, 6), 20) Then

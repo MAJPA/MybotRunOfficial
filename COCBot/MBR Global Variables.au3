@@ -157,7 +157,7 @@ Global $__Droid4X_Window[3][3] = _ ; Alternative window sizes (array must be ord
 Global $AndroidAppConfig[5][14] = [ _ ;                    |                                  |             |                   |                    |                   |                    |              |                 |64 = Dock mode support|                   |
    ["MEmu",       "MEmu",          "MEmu 2.",              "[CLASS:subWin; INSTANCE:1]",       "",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 12,$DEFAULT_WIDTH + 51,$DEFAULT_HEIGHT + 24,0,             "127.0.0.1:21503",0+2+4+8+16+32+64      ,'# ',               'Microvirt Virtual Input'], _
    ["Droid4X",    "droid4x",       "Droid4X 0.",           "[CLASS:subWin; INSTANCE:1]",       "",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH + 10,$DEFAULT_HEIGHT + 50,0,             "127.0.0.1:26944",0+2+4+8+16+32+64      ,'# ',               'droid4x Virtual Input'], _
-   ["Nox",        "nox",           "No",                   "[CLASS:Qt5QWindowIcon;INSTANCE:4]","",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH +  4,$DEFAULT_HEIGHT - 10,0,             "127.0.0.1:62001",0+2+4+8+16+32         ,'# ',               'nox Virtual Input'], _
+   ["Nox",        "nox",           "No",                   "[CLASS:Qt5QWindowIcon;INSTANCE:4]","",           $DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH +  4,$DEFAULT_HEIGHT - 10,0,             "127.0.0.1:62001",0+2+4+8+16+32         ,'# ',               '(nox Virtual Input|Android Input)'], _
    ["BlueStacks2","",              "BlueStacks ",          "[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,0,             "emulator-5554",  1    +8+16   +64      ,'$ ',               'BlueStacks Virtual Touch'], _
    ["BlueStacks", "",              "BlueStacks App Player","[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,$DEFAULT_WIDTH,     $DEFAULT_HEIGHT - 48,0,             "emulator-5554",  1    +8+16   +64      ,'$ ',               'BlueStacks Virtual Touch'] _
 ]
@@ -1453,6 +1453,9 @@ Global $chkMakeIMGCSV
 Global $THSnipeBeforeDBEnable = 0 , $THSnipeBeforeLBEnable = 0
 Global $THSnipeBeforeDBTiles = 0 , $THSnipeBeforeLBTiles = 0
 Global $THSnipeBeforeDBScript = 0 , $THSnipeBeforeLBScript = 0
+
+; Check Connections - by TheRevenor
+Global $ichkConnection = 1
 
 ; Close game while train
 Global $ichkCloseWaitTrain = 0, $ichkCloseWaitSpell, $ichkCloseWaitHero, $ibtnCloseWaitStop = 0, $ibtnCloseWaitStopRandom, $ibtnCloseWaitExact, $ibtnCloseWaitRandom, $icmbCloseWaitRdmPercent, $ichkCloseWaitEnable = 1

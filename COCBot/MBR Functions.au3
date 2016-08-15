@@ -189,6 +189,7 @@
 #include "functions\Other\CheckVersion.au3"
 #include "functions\Other\CloseRunningBot.au3"
 #include "functions\Other\WindowSystemMenu.au3"
+#include "functions\Other\CheckInternet.au3"
 
 #include "functions\Other\ComError.au3"
 #include "functions\Other\IsPage.au3"

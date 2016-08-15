@@ -755,6 +755,10 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		$ichkLanguage = IniRead($config, "General", "ChkLanguage", "1")
 		$ichkDisableSplash = IniRead($config, "General", "ChkDisableSplash", $ichkDisableSplash)
 		$ichkVersion = IniRead($config, "General", "ChkVersion", "1")
+
+		; Check Connections - Added by TheRevenor
+		$ichkConnection = IniRead($config, "general", "ChkConnect", "1")
+
 		;InireadS(xxxx,$config, "attack", "xxxx", "0")
 		;InireadS(xxxx,$config, "attack", "xxxx", "0")
 

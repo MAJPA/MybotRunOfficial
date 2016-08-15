@@ -242,7 +242,7 @@ Func getArmyTroopCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $tes
 
 	EndIf
 
-	If Not $fullArmy And $FirstStart Then
+	If Not $fullArmy And $FirstStart And $icmbTroopComp <> 8 Then
 		$ArmyComp = $CurCamp
 	EndIf
 
